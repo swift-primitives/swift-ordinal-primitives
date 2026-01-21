@@ -53,7 +53,7 @@ public struct Ordinal: Hashable, Comparable, Sendable {
         guard rawValue >= 0 else {
             throw .negativeValue(rawValue)
         }
-        self.position = Affine.Discrete.Position(__unchecked: rawValue)
+        self.position = Affine.Discrete.Position(__unchecked: (), rawValue)
     }
 
     /// Creates an ordinal from a validated position.
@@ -69,7 +69,7 @@ public struct Ordinal: Hashable, Comparable, Sendable {
     ///   is known to be non-negative.
     @inlinable
     public init(__unchecked rawValue: Int) {
-        self.position = Affine.Discrete.Position(__unchecked: rawValue)
+        self.position = Affine.Discrete.Position(__unchecked: (), rawValue)
     }
 
     @inlinable
