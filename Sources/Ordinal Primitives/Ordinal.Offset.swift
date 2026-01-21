@@ -9,12 +9,14 @@
 //
 // ===----------------------------------------------------------------------===//
 
+import Affine_Primitives
+
 extension Ordinal {
     /// A signed offset between ordinal positions.
     ///
-    /// Represents the directed distance between two ordinals. The sign
-    /// indicates direction: positive offsets move forward (toward higher
-    /// indices), negative offsets move backward.
+    /// Wraps `Affine.Discrete.Displacement` for backwards compatibility.
+    ///
+    /// > Migration: Consider using `Affine.Discrete.Displacement` directly.
     ///
     /// ## Semantic Model
     ///
@@ -33,18 +35,28 @@ extension Ordinal {
     /// let combined = forward + backward  // Offset(2)
     /// ```
     public struct Offset: Hashable, Comparable, Sendable {
+        /// The underlying displacement.
+        public let displacement: Affine.Discrete.Displacement
+
         /// The underlying signed value.
-        public let rawValue: Int
+        @inlinable
+        public var rawValue: Int { displacement.rawValue }
 
         /// Creates an offset with the given signed value.
         @inlinable
         public init(_ rawValue: Int) {
-            self.rawValue = rawValue
+            self.displacement = Affine.Discrete.Displacement(rawValue)
+        }
+
+        /// Creates an offset from a displacement.
+        @inlinable
+        public init(_ displacement: Affine.Discrete.Displacement) {
+            self.displacement = displacement
         }
 
         @inlinable
         public static func < (lhs: Self, rhs: Self) -> Bool {
-            lhs.rawValue < rhs.rawValue
+            lhs.displacement < rhs.displacement
         }
     }
 }

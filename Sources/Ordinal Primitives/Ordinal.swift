@@ -9,11 +9,16 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Affine_Primitives
+
 /// A non-negative ordinal position.
 ///
-/// Represents a discrete position on an ordered axis. The foundational
-/// type for both compile-time bounded ordinals (`Finite.Ordinal<N>`) and
-/// runtime bounded indices (`Index<Element>`).
+/// Wraps `Affine.Discrete.Position` with a throwing initializer for
+/// backwards compatibility with code that expects errors on invalid input.
+///
+/// > Migration: Consider using `Affine.Discrete.Position` directly for
+/// > failable (Optional-returning) construction, which avoids error handling
+/// > overhead.
 ///
 /// ## Semantic Model
 ///
@@ -32,8 +37,12 @@
 /// let distance = newPosition - position    // Offset(3)
 /// ```
 public struct Ordinal: Hashable, Comparable, Sendable {
+    /// The underlying discrete position.
+    public let position: Affine.Discrete.Position
+
     /// The underlying position value.
-    public let rawValue: Int
+    @inlinable
+    public var rawValue: Int { position.rawValue }
 
     /// Creates an ordinal at the given position.
     ///
@@ -41,8 +50,16 @@ public struct Ordinal: Hashable, Comparable, Sendable {
     /// - Throws: `Ordinal.Error.negativeValue` if `rawValue < 0`.
     @inlinable
     public init(_ rawValue: Int) throws(Ordinal.Error) {
-        guard rawValue >= 0 else { throw .negativeValue(rawValue) }
-        self.rawValue = rawValue
+        guard rawValue >= 0 else {
+            throw .negativeValue(rawValue)
+        }
+        self.position = Affine.Discrete.Position(__unchecked: rawValue)
+    }
+
+    /// Creates an ordinal from a validated position.
+    @inlinable
+    public init(_ position: Affine.Discrete.Position) {
+        self.position = position
     }
 
     /// Creates an ordinal without bounds checking.
@@ -52,12 +69,12 @@ public struct Ordinal: Hashable, Comparable, Sendable {
     ///   is known to be non-negative.
     @inlinable
     public init(__unchecked rawValue: Int) {
-        self.rawValue = rawValue
+        self.position = Affine.Discrete.Position(__unchecked: rawValue)
     }
 
     @inlinable
     public static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.rawValue < rhs.rawValue
+        lhs.position < rhs.position
     }
 }
 

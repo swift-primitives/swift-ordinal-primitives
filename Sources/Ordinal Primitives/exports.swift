@@ -1,2 +1,4 @@
 // exports.swift
-// No external dependencies to re-export - ordinal-primitives is foundational.
+// Re-export Affine_Primitives for consumers.
+
+@_exported public import Affine_Primitives

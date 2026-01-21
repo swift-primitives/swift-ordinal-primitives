@@ -17,9 +17,15 @@ let package = Package(
             targets: ["Ordinal Primitives"]
         )
     ],
+    dependencies: [
+        .package(path: "../swift-affine-primitives")
+    ],
     targets: [
         .target(
-            name: "Ordinal Primitives"
+            name: "Ordinal Primitives",
+            dependencies: [
+                .product(name: "Affine Primitives", package: "swift-affine-primitives")
+            ]
         )
     ],
     swiftLanguageModes: [.v6]

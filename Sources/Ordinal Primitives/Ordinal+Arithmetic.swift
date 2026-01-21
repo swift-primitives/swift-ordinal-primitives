@@ -9,14 +9,25 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// MARK: - Position + Offset → Position
+// Ordinal Affine Arithmetic
+//
+// Ordinal follows affine space semantics:
+// - Ordinal + Offset → Ordinal (throws if result would be negative)
+// - Ordinal - Offset → Ordinal (throws if result would be negative)
+// - Ordinal - Ordinal → Offset
+// - Offset ± Offset → Offset
+
+// MARK: - Ordinal + Offset → Ordinal (Point + Vector → Point)
 
 /// Advances an ordinal by an offset.
 ///
 /// - Throws: `Ordinal.Error.negativeValue` if the result would be negative.
 @inlinable
 public func + (lhs: Ordinal, rhs: Ordinal.Offset) throws(Ordinal.Error) -> Ordinal {
-    try Ordinal(lhs.rawValue + rhs.rawValue)
+    guard let pos = lhs.position + rhs.displacement else {
+        throw .negativeValue(lhs.rawValue + rhs.rawValue)
+    }
+    return Ordinal(pos)
 }
 
 /// Advances an ordinal by an offset (commutative).
@@ -24,45 +35,50 @@ public func + (lhs: Ordinal, rhs: Ordinal.Offset) throws(Ordinal.Error) -> Ordin
 /// - Throws: `Ordinal.Error.negativeValue` if the result would be negative.
 @inlinable
 public func + (lhs: Ordinal.Offset, rhs: Ordinal) throws(Ordinal.Error) -> Ordinal {
-    try Ordinal(lhs.rawValue + rhs.rawValue)
+    try rhs + lhs
 }
+
+// MARK: - Ordinal - Offset → Ordinal (Point - Vector → Point)
 
 /// Retreats an ordinal by an offset.
 ///
 /// - Throws: `Ordinal.Error.negativeValue` if the result would be negative.
 @inlinable
 public func - (lhs: Ordinal, rhs: Ordinal.Offset) throws(Ordinal.Error) -> Ordinal {
-    try Ordinal(lhs.rawValue - rhs.rawValue)
+    guard let pos = lhs.position - rhs.displacement else {
+        throw .negativeValue(lhs.rawValue - rhs.rawValue)
+    }
+    return Ordinal(pos)
 }
 
-// MARK: - Position - Position → Offset
+// MARK: - Ordinal - Ordinal → Offset (Point - Point → Vector)
 
-/// Returns the signed offset between two ordinals.
+/// Returns the signed offset (displacement) between two ordinals.
 ///
 /// The result is positive if `lhs > rhs`, negative if `lhs < rhs`.
 @inlinable
 public func - (lhs: Ordinal, rhs: Ordinal) -> Ordinal.Offset {
-    Ordinal.Offset(lhs.rawValue - rhs.rawValue)
+    Ordinal.Offset(lhs.position - rhs.position)
 }
 
-// MARK: - Offset ± Offset → Offset
+// MARK: - Offset ± Offset → Offset (Vector ± Vector → Vector)
 
 /// Adds two offsets.
 @inlinable
 public func + (lhs: Ordinal.Offset, rhs: Ordinal.Offset) -> Ordinal.Offset {
-    Ordinal.Offset(lhs.rawValue + rhs.rawValue)
+    Ordinal.Offset(lhs.displacement + rhs.displacement)
 }
 
 /// Subtracts two offsets.
 @inlinable
 public func - (lhs: Ordinal.Offset, rhs: Ordinal.Offset) -> Ordinal.Offset {
-    Ordinal.Offset(lhs.rawValue - rhs.rawValue)
+    Ordinal.Offset(lhs.displacement - rhs.displacement)
 }
 
 /// Negates an offset.
 @inlinable
 public prefix func - (offset: Ordinal.Offset) -> Ordinal.Offset {
-    Ordinal.Offset(-offset.rawValue)
+    Ordinal.Offset(-offset.displacement)
 }
 
 // MARK: - Compound Assignment
