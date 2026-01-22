@@ -18,13 +18,15 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../swift-affine-primitives")
+        .package(path: "../swift-affine-primitives"),
+        .package(path: "../swift-property-primitives")
     ],
     targets: [
         .target(
             name: "Ordinal Primitives",
             dependencies: [
-                .product(name: "Affine Primitives", package: "swift-affine-primitives")
+                .product(name: "Affine Primitives", package: "swift-affine-primitives"),
+                .product(name: "Property Primitives", package: "swift-property-primitives")
             ]
         )
     ],

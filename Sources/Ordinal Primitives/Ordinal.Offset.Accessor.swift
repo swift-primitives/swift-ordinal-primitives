@@ -9,6 +9,10 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Property_Primitives
+
+// MARK: - Accessor
+
 extension Ordinal {
     /// Accessor for offset operations with failable and clamped variants.
     ///
@@ -28,38 +32,33 @@ extension Ordinal {
     /// // Clamped offset
     /// position.offset.clamped(by: Offset(-10))  // Ordinal(0)
     /// ```
-    public struct OffsetAccessor: Sendable {
-        @usableFromInline
-        let ordinal: Ordinal
+    @inlinable
+    public var offset: Property<Offset> {
+        _read { yield Property(self) }
+    }
+}
 
-        @usableFromInline
-        init(_ ordinal: Ordinal) {
-            self.ordinal = ordinal
-        }
+// MARK: - Operations
 
-        /// Returns an ordinal offset by the given amount, or nil if result would be negative.
-        ///
-        /// - Parameter delta: The signed offset to apply.
-        /// - Returns: The offset ordinal, or `nil` if the result would be negative.
-        @inlinable
-        public func callAsFunction(by delta: Offset) -> Ordinal? {
-            let result = ordinal.rawValue + delta.rawValue
-            guard result >= 0 else { return nil }
-            return Ordinal(__unchecked: result)
-        }
-
-        /// Returns an ordinal offset by the given amount, clamped to zero minimum.
-        ///
-        /// - Parameter delta: The signed offset to apply.
-        /// - Returns: The offset ordinal, clamped to `0` if the result would be negative.
-        @inlinable
-        public func clamped(by delta: Offset) -> Ordinal {
-            let result = ordinal.rawValue + delta.rawValue
-            return Ordinal(__unchecked: max(0, result))
-        }
+extension Property_Primitives.Property where Tag == Ordinal.Offset, Base == Ordinal {
+    /// Returns an ordinal offset by the given amount, or nil if result would be negative.
+    ///
+    /// - Parameter delta: The signed offset to apply.
+    /// - Returns: The offset ordinal, or `nil` if the result would be negative.
+    @inlinable
+    public func callAsFunction(by delta: Ordinal.Offset) -> Ordinal? {
+        let result = base.rawValue + delta.rawValue
+        guard result >= 0 else { return nil }
+        return Ordinal(__unchecked: result)
     }
 
-    /// Accessor for offset operations.
+    /// Returns an ordinal offset by the given amount, clamped to zero minimum.
+    ///
+    /// - Parameter delta: The signed offset to apply.
+    /// - Returns: The offset ordinal, clamped to `0` if the result would be negative.
     @inlinable
-    public var offset: OffsetAccessor { OffsetAccessor(self) }
+    public func clamped(by delta: Ordinal.Offset) -> Ordinal {
+        let result = base.rawValue + delta.rawValue
+        return Ordinal(__unchecked: max(0, result))
+    }
 }
