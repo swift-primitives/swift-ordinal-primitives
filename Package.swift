@@ -1,5 +1,4 @@
 // swift-tools-version: 6.2
-
 import PackageDescription
 
 let package = Package(
@@ -9,26 +8,49 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26)
+        .visionOS(.v26),
     ],
     products: [
         .library(
             name: "Ordinal Primitives",
             targets: ["Ordinal Primitives"]
-        )
+        ),
+        .library(
+            name: "Ordinal Primitives Test Support",
+            targets: ["Ordinal Primitives Test Support"]
+        ),
     ],
     dependencies: [
-        .package(path: "../swift-affine-primitives"),
-        .package(path: "../swift-property-primitives")
+        .package(path: "../swift-cardinal-primitives"),
+        .package(path: "../swift-property-primitives"),
+        .package(path: "../swift-equation-primitives"),
+        .package(path: "../swift-comparison-primitives"),
     ],
     targets: [
         .target(
             name: "Ordinal Primitives",
             dependencies: [
-                .product(name: "Affine Primitives", package: "swift-affine-primitives"),
-                .product(name: "Property Primitives", package: "swift-property-primitives")
+                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
+                .product(name: "Property Primitives", package: "swift-property-primitives"),
+                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
             ]
-        )
+        ),
+        .target(
+            name: "Ordinal Primitives Test Support",
+            dependencies: [
+                "Ordinal Primitives",
+                .product(name: "Cardinal Primitives Test Support", package: "swift-cardinal-primitives"),
+            ],
+            path: "Tests/Support"
+        ),
+        .testTarget(
+            name: "Ordinal Primitives Tests",
+            dependencies: [
+                "Ordinal Primitives",
+                "Ordinal Primitives Test Support",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -39,7 +61,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableExperimentalFeature("Lifetimes"),
-        .strictMemorySafety()
+        .strictMemorySafety(),
     ]
     target.swiftSettings = (target.swiftSettings ?? []) + settings
 }

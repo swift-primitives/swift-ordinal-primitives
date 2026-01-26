@@ -1,4 +1,6 @@
-// exports.swift
-// Re-export Affine_Primitives for consumers.
+// Re-export dependencies for consumers.
 
-@_exported public import Affine_Primitives
+@_exported public import Cardinal_Primitives
+@_exported public import Property_Primitives
+@_exported public import Equation_Primitives
+@_exported public import Comparison_Primitives
