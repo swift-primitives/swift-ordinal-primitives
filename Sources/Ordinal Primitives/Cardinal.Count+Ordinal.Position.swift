@@ -13,6 +13,6 @@ extension Cardinal.Count {
     /// - Parameter position: The ordinal position to convert.
     @inlinable
     public init(_ position: Ordinal.Position) {
-        self.init(__unchecked: position.rawValue)
+        self.init(__unchecked: (), position.rawValue)
     }
 }
