@@ -241,35 +241,3 @@ extension Int {
     }
 }
 
-// MARK: - Tagged<Tag, Ordinal> Advance Operations
-
-extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
-    /// Tag type for phantom-typed advance operations.
-    public enum Advance {}
-
-    /// Policy-aware advance operations for phantom-typed ordinals.
-    ///
-    /// Use this accessor to move forward by a cardinal amount:
-    /// - `.advance.clamped(by:to:)` — clamps at a dynamic bound
-    @inlinable
-    public var advance: TaggedOrdinalAdvance<Tag> {
-        TaggedOrdinalAdvance(base: self)
-    }
-}
-
-// MARK: - Tagged<Tag, Ordinal> Retreat Operations
-
-extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
-    /// Tag type for phantom-typed retreat operations.
-    public enum Retreat {}
-
-    /// Policy-aware retreat operations for phantom-typed ordinals.
-    ///
-    /// Use this accessor to move backward by a cardinal amount:
-    /// - `.retreat.clamped(by:to:)` — clamps at a dynamic bound
-    @inlinable
-    public var retreat: TaggedOrdinalRetreat<Tag> {
-        TaggedOrdinalRetreat(base: self)
-    }
-}
-
