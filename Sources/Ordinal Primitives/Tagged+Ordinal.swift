@@ -257,34 +257,6 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     }
 }
 
-/// Advance operations for phantom-typed ordinals.
-public struct TaggedOrdinalAdvance<Tag: ~Copyable>: ~Copyable {
-    @usableFromInline
-    let base: Tagged<Tag, Ordinal>
-
-    @inlinable
-    init(base: Tagged<Tag, Ordinal>) {
-        self.base = base
-    }
-
-    /// Advances by a count, clamping to a dynamic bound.
-    ///
-    /// - Parameters:
-    ///   - count: The cardinal amount to advance by.
-    ///   - bound: The maximum position to clamp to.
-    /// - Returns: The new position, clamped to `bound` if it would exceed it.
-    @inlinable
-    public func clamped(
-        by count: Tagged<Tag, Cardinal>,
-        to bound: Tagged<Tag, Ordinal>
-    ) -> Tagged<Tag, Ordinal> {
-        Tagged<Tag, Ordinal>(
-            __unchecked: (),
-            base.rawValue.advance.clamped(by: count.rawValue, to: bound.rawValue)
-        )
-    }
-}
-
 // MARK: - Tagged<Tag, Ordinal> Retreat Operations
 
 extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
@@ -301,30 +273,3 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     }
 }
 
-/// Retreat operations for phantom-typed ordinals.
-public struct TaggedOrdinalRetreat<Tag: ~Copyable>: ~Copyable {
-    @usableFromInline
-    let base: Tagged<Tag, Ordinal>
-
-    @inlinable
-    init(base: Tagged<Tag, Ordinal>) {
-        self.base = base
-    }
-
-    /// Retreats by a count, clamping to a dynamic bound.
-    ///
-    /// - Parameters:
-    ///   - count: The cardinal amount to retreat by.
-    ///   - bound: The minimum position to clamp to.
-    /// - Returns: The new position, clamped to `bound` if it would go below it.
-    @inlinable
-    public func clamped(
-        by count: Tagged<Tag, Cardinal>,
-        to bound: Tagged<Tag, Ordinal>
-    ) -> Tagged<Tag, Ordinal> {
-        Tagged<Tag, Ordinal>(
-            __unchecked: (),
-            base.rawValue.retreat.clamped(by: count.rawValue, to: bound.rawValue)
-        )
-    }
-}
