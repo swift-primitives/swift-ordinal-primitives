@@ -9,7 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-public import Cardinal_Primitives
+public import Identity_Primitives
 
 // MARK: - Tagged<Tag, Ordinal> Properties and Constants
 

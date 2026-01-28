@@ -13,6 +13,6 @@ extension Cardinal {
     /// - Parameter position: The ordinal position to convert.
     @inlinable
     public init(_ position: Ordinal) {
-        self.init(__unchecked: (), position.rawValue)
+        self.init(position.rawValue)
     }
 }

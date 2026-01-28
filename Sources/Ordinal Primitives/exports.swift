@@ -1,6 +1,3 @@
-// Re-export dependencies for consumers.
-
-@_exported public import Cardinal_Primitives
-@_exported public import Property_Primitives
-@_exported public import Equation_Primitives
-@_exported public import Comparison_Primitives
+@_exported public import Identity_Primitives
+@_exported public import Ordinal_Primitives_Core
+@_exported public import Ordinal_Primitives_Standard_Library_Integration
