@@ -1,6 +1,6 @@
-// MARK: - Int to Ordinal.Position Conversions
+// MARK: - Int to Ordinal Conversions
 
-extension Ordinal.Position {
+extension Ordinal {
     /// Creates a position from a signed integer, returning `nil` if negative.
     ///
     /// - Parameter value: The signed integer value.
@@ -24,7 +24,7 @@ extension Ordinal.Position {
     }
 }
 
-// MARK: - Ordinal.Position to Int Conversions
+// MARK: - Ordinal to Int Conversions
 
 extension Int {
     /// Creates an integer from a position, returning `nil` if it exceeds `Int.max`.
@@ -35,7 +35,7 @@ extension Int {
     /// - Parameter position: The ordinal position.
     /// - Returns: The integer value if representable, otherwise `nil`.
     @inlinable
-    public init?(exactly position: Ordinal.Position) {
+    public init?(exactly position: Ordinal) {
         guard position.rawValue <= UInt(Int.max) else { return nil }
         self = Int(position.rawValue)
     }
@@ -43,9 +43,9 @@ extension Int {
     /// Creates an integer from a position, throwing if it exceeds `Int.max`.
     ///
     /// - Parameter position: The ordinal position.
-    /// - Throws: `Ordinal.Position.Error.overflow` if the position exceeds `Int.max`.
+    /// - Throws: `Ordinal.Error.overflow` if the position exceeds `Int.max`.
     @inlinable
-    public init(_ position: Ordinal.Position) throws(Ordinal.Position.Error) {
+    public init(_ position: Ordinal) throws(Ordinal.Error) {
         guard position.rawValue <= UInt(Int.max) else {
             throw .overflow
         }

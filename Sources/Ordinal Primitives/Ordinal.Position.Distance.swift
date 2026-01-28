@@ -1,7 +1,7 @@
 public import Property_Primitives
 public import Cardinal_Primitives
 
-extension Ordinal.Position {
+extension Ordinal {
     /// Tag type for distance operations.
     public enum Distance {}
 
@@ -15,7 +15,7 @@ extension Ordinal.Position {
     }
 }
 
-extension Property where Tag == Ordinal.Position.Distance, Base == Ordinal.Position {
+extension Property where Tag == Ordinal.Distance, Base == Ordinal {
     /// Computes the forward distance to another position.
     ///
     /// This operation is directional: it only succeeds when `other >= self`.
@@ -24,12 +24,12 @@ extension Property where Tag == Ordinal.Position.Distance, Base == Ordinal.Posit
     ///
     /// - Parameter other: The target position.
     /// - Returns: The cardinal distance from `self` to `other`.
-    /// - Throws: `Ordinal.Position.Error.notForward` if `other < self`.
+    /// - Throws: `Ordinal.Error.notForward` if `other < self`.
     @inlinable
-    public func forward(to other: Base) throws(Base.Error) -> Cardinal.Count {
+    public func forward(to other: Base) throws(Base.Error) -> Cardinal {
         if other.rawValue < base.rawValue {
             throw .notForward
         }
-        return Cardinal.Count(other.rawValue - base.rawValue)
+        return Cardinal(other.rawValue - base.rawValue)
     }
 }

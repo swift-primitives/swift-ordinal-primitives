@@ -1,6 +1,6 @@
 public import Property_Primitives
 
-extension Ordinal.Position {
+extension Ordinal {
     /// Tag type for successor operations.
     public enum Successor {}
 
@@ -15,7 +15,7 @@ extension Ordinal.Position {
     }
 }
 
-extension Property where Tag == Ordinal.Position.Successor, Base == Ordinal.Position {
+extension Property where Tag == Ordinal.Successor, Base == Ordinal {
     /// Returns the next position, saturating at the maximum representable value.
     ///
     /// If at `UInt.max`, returns `UInt.max` (no change).
@@ -32,7 +32,7 @@ extension Property where Tag == Ordinal.Position.Successor, Base == Ordinal.Posi
     /// Returns the next position, throwing on overflow.
     ///
     /// - Returns: The next position.
-    /// - Throws: `Ordinal.Position.Error.overflow` if at `UInt.max`.
+    /// - Throws: `Ordinal.Error.overflow` if at `UInt.max`.
     @inlinable
     public func exact() throws(Base.Error) -> Base {
         if base.rawValue == .max {

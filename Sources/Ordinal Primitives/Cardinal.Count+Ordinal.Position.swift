@@ -1,8 +1,8 @@
 public import Cardinal_Primitives
 
-// MARK: - Ordinal.Position to Cardinal.Count Conversion
+// MARK: - Ordinal to Cardinal Conversion
 
-extension Cardinal.Count {
+extension Cardinal {
     /// Creates a count from a position.
     ///
     /// This is a total operation: every ordinal position maps directly
@@ -12,7 +12,7 @@ extension Cardinal.Count {
     ///
     /// - Parameter position: The ordinal position to convert.
     @inlinable
-    public init(_ position: Ordinal.Position) {
+    public init(_ position: Ordinal) {
         self.init(__unchecked: (), position.rawValue)
     }
 }

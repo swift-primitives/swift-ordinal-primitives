@@ -1,4 +1,4 @@
-extension Ordinal.Position {
+extension Ordinal {
     /// Errors that can occur during ordinal operations.
     public enum Error: Swift.Error, Hashable, Sendable {
         /// The operation would overflow the representable range.

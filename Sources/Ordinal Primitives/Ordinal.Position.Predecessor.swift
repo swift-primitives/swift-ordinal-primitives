@@ -1,6 +1,6 @@
 public import Property_Primitives
 
-extension Ordinal.Position {
+extension Ordinal {
     /// Tag type for predecessor operations.
     public enum Predecessor {}
 
@@ -18,11 +18,11 @@ extension Ordinal.Position {
     }
 }
 
-extension Property where Tag == Ordinal.Position.Predecessor, Base == Ordinal.Position {
+extension Property where Tag == Ordinal.Predecessor, Base == Ordinal {
     /// Returns the previous position, throwing at zero.
     ///
     /// - Returns: The previous position.
-    /// - Throws: `Ordinal.Position.Error.underflow` if at position zero.
+    /// - Throws: `Ordinal.Error.underflow` if at position zero.
     @inlinable
     public func exact() throws(Base.Error) -> Base {
         if base.rawValue == 0 {

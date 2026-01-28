@@ -11,15 +11,15 @@
 
 // MARK: - ExpressibleByIntegerLiteral
 
-extension Ordinal.Position: ExpressibleByIntegerLiteral {
+extension Ordinal: ExpressibleByIntegerLiteral {
     /// Creates a position from an unsigned integer literal.
     ///
     /// This conformance is total (cannot fail) because the literal type is `UInt`,
     /// which matches the backing type. Negative literals are compile-time errors.
     ///
     /// ```swift
-    /// let position: Ordinal.Position = 5  // OK
-    /// let invalid: Ordinal.Position = -1  // Compile error: negative literal
+    /// let position: Ordinal = 5  // OK
+    /// let invalid: Ordinal = -1  // Compile error: negative literal
     /// ```
     @_disfavoredOverload
     @inlinable
