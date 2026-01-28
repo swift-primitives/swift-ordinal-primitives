@@ -217,6 +217,30 @@ public func >= <Tag: ~Copyable>(
     lhs.rawValue >= rhs.rawValue
 }
 
+// MARK: - Int Conversions for Tagged<Tag, Ordinal>
+
+extension Int {
+    /// Creates an integer from a tagged ordinal, returning `nil` if it exceeds `Int.max`.
+    @inlinable
+    public init?<Tag: ~Copyable>(exactly position: Tagged<Tag, Ordinal>) {
+        self.init(exactly: position.rawValue)
+    }
+
+    /// Creates an integer from a tagged ordinal, throwing if it exceeds `Int.max`.
+    @inlinable
+    public init<Tag: ~Copyable>(_ position: Tagged<Tag, Ordinal>) throws(Ordinal.Error) {
+        self = try Int(position.rawValue)
+    }
+
+    /// Creates an integer by reinterpreting the tagged ordinal's bit pattern.
+    ///
+    /// This is an unchecked conversion for low-level operations like pointer arithmetic.
+    @inlinable
+    public init<Tag: ~Copyable>(bitPattern position: Tagged<Tag, Ordinal>) {
+        self = Int(bitPattern: position.rawValue)
+    }
+}
+
 // MARK: - Tagged<Tag, Ordinal> Advance Operations
 
 extension Tagged where RawValue == Ordinal, Tag: ~Copyable {

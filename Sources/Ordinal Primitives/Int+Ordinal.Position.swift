@@ -51,4 +51,18 @@ extension Int {
         }
         self = Int(position.rawValue)
     }
+
+    /// Creates an integer by reinterpreting the position's bit pattern.
+    ///
+    /// This is an unchecked conversion that reinterprets the underlying `UInt`
+    /// as `Int`. Values greater than `Int.max` become negative.
+    ///
+    /// Use this for pointer arithmetic and other low-level operations where
+    /// you need the raw bit pattern without validation.
+    ///
+    /// - Parameter position: The ordinal position.
+    @inlinable
+    public init(bitPattern position: Ordinal) {
+        self = Int(bitPattern: position.rawValue)
+    }
 }
