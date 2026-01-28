@@ -7,48 +7,61 @@ extension Ordinal: Comparison.`Protocol` {}
 
 // MARK: - Position ↔ Count Comparisons
 
-/// Checks if a position is less than a count.
+/// Cross-type comparisons between ordinals and cardinals.
 ///
-/// This is the canonical bounds check: `position < count` means the position
-/// is a valid index for a collection of the given count.
+/// These operators are disfavored so that same-type comparisons
+/// (Cardinal > Cardinal, Ordinal > Ordinal) are preferred during type inference.
+/// This prevents ambiguity when using `.zero` with a known LHS type.
+///
+/// The canonical bounds check `position < count` still works - you just need
+/// both sides to have explicit types.
+
 @inlinable
+@_disfavoredOverload
 public func < (lhs: Ordinal, rhs: Cardinal) -> Bool {
     lhs.rawValue < rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func <= (lhs: Ordinal, rhs: Cardinal) -> Bool {
     lhs.rawValue <= rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func > (lhs: Ordinal, rhs: Cardinal) -> Bool {
     lhs.rawValue > rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func >= (lhs: Ordinal, rhs: Cardinal) -> Bool {
     lhs.rawValue >= rhs.rawValue
 }
 
-// Reverse direction
+// Reverse direction (Cardinal ↔ Ordinal)
 
 @inlinable
+@_disfavoredOverload
 public func < (lhs: Cardinal, rhs: Ordinal) -> Bool {
     lhs.rawValue < rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func <= (lhs: Cardinal, rhs: Ordinal) -> Bool {
     lhs.rawValue <= rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func > (lhs: Cardinal, rhs: Ordinal) -> Bool {
     lhs.rawValue > rhs.rawValue
 }
 
 @inlinable
+@_disfavoredOverload
 public func >= (lhs: Cardinal, rhs: Ordinal) -> Bool {
     lhs.rawValue >= rhs.rawValue
 }
