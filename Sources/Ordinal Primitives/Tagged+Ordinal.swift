@@ -40,14 +40,6 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     public init(_ position: Int) throws(Ordinal.Error) {
         self.init(__unchecked: (), try Ordinal(position))
     }
-
-    /// Creates a tagged ordinal by retagging from another tag domain.
-    ///
-    /// This is a total operation - retagging preserves the position value.
-    @inlinable
-    public init<Other: ~Copyable>(_ other: Tagged<Other, RawValue>) {
-        self.init(__unchecked: (), other.rawValue)
-    }
 }
 
 // MARK: - Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> Conversion
@@ -60,12 +52,6 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     public init(_ count: Tagged<Tag, Cardinal>) {
         self.init(__unchecked: (), Ordinal(count.rawValue))
     }
-
-    /// Creates a tagged ordinal from a tagged cardinal in a different domain.
-    @inlinable
-    public init<Other: ~Copyable>(_ count: Tagged<Other, Cardinal>) {
-        self.init(__unchecked: (), Ordinal(count.rawValue))
-    }
 }
 
 extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
@@ -75,12 +61,6 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     /// so the count equals the position's numeric value.
     @inlinable
     public init(_ index: Tagged<Tag, Ordinal>) {
-        self.init(__unchecked: (), Cardinal(index.rawValue))
-    }
-
-    /// Creates a tagged cardinal from a tagged ordinal in a different domain.
-    @inlinable
-    public init<Other: ~Copyable>(_ index: Tagged<Other, Ordinal>) {
         self.init(__unchecked: (), Cardinal(index.rawValue))
     }
 }
