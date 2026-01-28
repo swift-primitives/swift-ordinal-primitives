@@ -216,3 +216,91 @@ public func >= <Tag: ~Copyable>(
 ) -> Bool {
     lhs.rawValue >= rhs.rawValue
 }
+
+// MARK: - Tagged<Tag, Ordinal> Advance Operations
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// Tag type for phantom-typed advance operations.
+    public enum Advance {}
+
+    /// Policy-aware advance operations for phantom-typed ordinals.
+    ///
+    /// Use this accessor to move forward by a cardinal amount:
+    /// - `.advance.clamped(by:to:)` — clamps at a dynamic bound
+    @inlinable
+    public var advance: TaggedOrdinalAdvance<Tag> {
+        TaggedOrdinalAdvance(base: self)
+    }
+}
+
+/// Advance operations for phantom-typed ordinals.
+public struct TaggedOrdinalAdvance<Tag: ~Copyable>: ~Copyable {
+    @usableFromInline
+    let base: Tagged<Tag, Ordinal>
+
+    @inlinable
+    init(base: Tagged<Tag, Ordinal>) {
+        self.base = base
+    }
+
+    /// Advances by a count, clamping to a dynamic bound.
+    ///
+    /// - Parameters:
+    ///   - count: The cardinal amount to advance by.
+    ///   - bound: The maximum position to clamp to.
+    /// - Returns: The new position, clamped to `bound` if it would exceed it.
+    @inlinable
+    public func clamped(
+        by count: Tagged<Tag, Cardinal>,
+        to bound: Tagged<Tag, Ordinal>
+    ) -> Tagged<Tag, Ordinal> {
+        Tagged<Tag, Ordinal>(
+            __unchecked: (),
+            base.rawValue.advance.clamped(by: count.rawValue, to: bound.rawValue)
+        )
+    }
+}
+
+// MARK: - Tagged<Tag, Ordinal> Retreat Operations
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// Tag type for phantom-typed retreat operations.
+    public enum Retreat {}
+
+    /// Policy-aware retreat operations for phantom-typed ordinals.
+    ///
+    /// Use this accessor to move backward by a cardinal amount:
+    /// - `.retreat.clamped(by:to:)` — clamps at a dynamic bound
+    @inlinable
+    public var retreat: TaggedOrdinalRetreat<Tag> {
+        TaggedOrdinalRetreat(base: self)
+    }
+}
+
+/// Retreat operations for phantom-typed ordinals.
+public struct TaggedOrdinalRetreat<Tag: ~Copyable>: ~Copyable {
+    @usableFromInline
+    let base: Tagged<Tag, Ordinal>
+
+    @inlinable
+    init(base: Tagged<Tag, Ordinal>) {
+        self.base = base
+    }
+
+    /// Retreats by a count, clamping to a dynamic bound.
+    ///
+    /// - Parameters:
+    ///   - count: The cardinal amount to retreat by.
+    ///   - bound: The minimum position to clamp to.
+    /// - Returns: The new position, clamped to `bound` if it would go below it.
+    @inlinable
+    public func clamped(
+        by count: Tagged<Tag, Cardinal>,
+        to bound: Tagged<Tag, Ordinal>
+    ) -> Tagged<Tag, Ordinal> {
+        Tagged<Tag, Ordinal>(
+            __unchecked: (),
+            base.rawValue.retreat.clamped(by: count.rawValue, to: bound.rawValue)
+        )
+    }
+}

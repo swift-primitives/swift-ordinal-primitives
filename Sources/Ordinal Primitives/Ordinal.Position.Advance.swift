@@ -45,4 +45,22 @@ extension Property where Tag == Ordinal.Advance, Base == Ordinal {
         }
         return Base(result)
     }
+
+    /// Advances by a count, clamping to a dynamic bound.
+    ///
+    /// Use this for bounded operations where advancing beyond a limit
+    /// should clamp rather than overflow or throw.
+    ///
+    /// - Parameters:
+    ///   - count: The cardinal amount to advance by.
+    ///   - bound: The maximum position to clamp to.
+    /// - Returns: The new position, clamped to `bound` if it would exceed it.
+    @inlinable
+    public func clamped(by count: Cardinal, to bound: Base) -> Base {
+        let (result, overflow) = base.rawValue.addingReportingOverflow(count.rawValue)
+        if overflow || result > bound.rawValue {
+            return bound
+        }
+        return Base(result)
+    }
 }
