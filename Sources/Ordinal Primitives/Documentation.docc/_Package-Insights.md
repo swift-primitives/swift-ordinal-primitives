@@ -62,6 +62,34 @@ This computes the new range bound in O(1) without iteration. The clamping handle
 
 ---
 
+## Int Conversions Belong at the Primitive Level
+
+**Date**: 2026-01-28
+
+**Context**: Adding Int conversion extensions for Tagged<Tag, Cardinal> and Tagged<Tag, Ordinal>.
+
+Range Primitives needed `Int(bitPattern: index)` for pointer arithmetic. The initial implementation put these conversions in Range Primitives. But the question arose: why is Int conversion Range-specific? It's not—it's a general operation on positions and counts.
+
+`Int.init(bitPattern: Ordinal)` belongs in Ordinal Primitives because it's converting an ordinal position to a signed integer. `Int.init(bitPattern: Cardinal)` belongs in Cardinal Primitives for the same reason. These are mathematical conversions, not Range-specific utilities.
+
+For phantom-typed values, the extensions go on Tagged:
+
+```swift
+extension Int {
+    public init<Tag: ~Copyable>(bitPattern position: Tagged<Tag, Ordinal>) {
+        self = Int(bitPattern: position.rawValue)
+    }
+}
+```
+
+The Tagged extension delegates to the Ordinal extension, which delegates to the raw UInt→Int conversion. Each layer adds its concern: Tagged handles phantom types, Ordinal handles ordinal semantics, UInt handles the actual bits.
+
+Once the conversions exist at the primitive level, downstream packages simply use them. No local extensions, no redundant implementations. Layering done right means downstream code is simpler.
+
+**Applies to**: `Int.init(bitPattern: Ordinal)`, `Int.init(bitPattern: Tagged<Tag, Ordinal>)`, conversion layering.
+
+---
+
 ## Topics
 
 ### Related Documents
