@@ -11,6 +11,80 @@
 
 public import Cardinal_Primitives
 
+// MARK: - Tagged<Tag, Ordinal> Properties and Constants
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// The underlying ordinal position.
+    @inlinable
+    public var position: Ordinal { rawValue }
+
+    /// The zero position.
+    @inlinable
+    public static var zero: Self { .init(__unchecked: (), .zero) }
+}
+
+// MARK: - Tagged<Tag, Ordinal> Construction
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// Creates a tagged ordinal from an ordinal.
+    @inlinable
+    public init(_ position: Ordinal) {
+        self.init(__unchecked: (), position)
+    }
+
+    /// Creates a tagged ordinal from a signed integer.
+    ///
+    /// - Parameter position: The position value. Must be non-negative.
+    /// - Throws: `Ordinal.Error.negativeSource` if position is negative.
+    @inlinable
+    public init(_ position: Int) throws(Ordinal.Error) {
+        self.init(__unchecked: (), try Ordinal(position))
+    }
+
+    /// Creates a tagged ordinal by retagging from another tag domain.
+    ///
+    /// This is a total operation - retagging preserves the position value.
+    @inlinable
+    public init<Other: ~Copyable>(_ other: Tagged<Other, RawValue>) {
+        self.init(__unchecked: (), other.rawValue)
+    }
+}
+
+// MARK: - Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> Conversion
+
+extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
+    /// Creates a tagged ordinal from a tagged cardinal.
+    ///
+    /// This is total - Cardinal is non-negative, so the resulting Ordinal is valid.
+    @inlinable
+    public init(_ count: Tagged<Tag, Cardinal>) {
+        self.init(__unchecked: (), Ordinal(count.rawValue))
+    }
+
+    /// Creates a tagged ordinal from a tagged cardinal in a different domain.
+    @inlinable
+    public init<Other: ~Copyable>(_ count: Tagged<Other, Cardinal>) {
+        self.init(__unchecked: (), Ordinal(count.rawValue))
+    }
+}
+
+extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
+    /// Creates a tagged cardinal from a tagged ordinal.
+    ///
+    /// Semantically, position N means "N elements precede this position",
+    /// so the count equals the position's numeric value.
+    @inlinable
+    public init(_ index: Tagged<Tag, Ordinal>) {
+        self.init(__unchecked: (), Cardinal(index.rawValue))
+    }
+
+    /// Creates a tagged cardinal from a tagged ordinal in a different domain.
+    @inlinable
+    public init<Other: ~Copyable>(_ index: Tagged<Other, Ordinal>) {
+        self.init(__unchecked: (), Cardinal(index.rawValue))
+    }
+}
+
 // MARK: - Tagged<Tag, Ordinal> + Tagged<Tag, Cardinal> → Tagged<Tag, Ordinal>
 
 /// Phantom-typed ordinal advancement by cardinal.
