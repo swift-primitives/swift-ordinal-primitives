@@ -54,7 +54,7 @@ public struct Ordinal: Hashable, Comparable, Sendable {
 
     /// The zero position (first element in a well-order).
     @inlinable
-    public static var zero: Self { .init(.zero) }
+    public static var zero: Self { Ordinal(UInt.zero) }
 
     // MARK: - Equatable / Equation.Protocol
 
