@@ -83,6 +83,18 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
 /// let otherCount: Tagged<Other, Cardinal> = ...
 /// // index + otherCount  // Compile error: different Tags
 /// ```
+///
+/// ## Future: Domain-based Unification
+///
+/// These operators duplicate the bare Ordinal + Cardinal operators from
+/// Ordinal+Cardinal.swift. Full unification via generic operators with
+/// `where O.Domain == C.Domain` is blocked by Swift's requirement that
+/// associated types be `Copyable`. When `Tag: ~Copyable`, we cannot
+/// satisfy `Domain = Tag`.
+///
+/// See: swift-cardinal-primitives/Experiments/tag-preserving-protocol-abstraction/
+/// for the validated design that would enable full unification once Swift
+/// allows `associatedtype Domain: ~Copyable`.
 
 extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     /// Advances a tagged ordinal by a tagged cardinal.
@@ -237,4 +249,3 @@ extension Int {
         self = Int(bitPattern: position.rawValue)
     }
 }
-

@@ -13,10 +13,16 @@ extension Ordinal {
     /// both bare `Ordinal` and phantom-typed wrappers like `Index<T>`
     /// without rawValue extraction.
     ///
+    /// ## Associated Types
+    ///
+    /// - `Count` — The cardinal type that measures distances between positions.
+    ///   For `Ordinal`, this is `Cardinal`. For `Tagged<Tag, Ordinal>`, this is
+    ///   `Tagged<Tag, Cardinal>`, preserving the phantom type through distance operations.
+    ///
     /// ## Conformers
     ///
-    /// - `Ordinal` — identity (self-conformance)
-    /// - `Tagged<Tag, Ordinal>` — phantom-typed ordinal wrapper
+    /// - `Ordinal` — identity (self-conformance), `Count = Cardinal`
+    /// - `Tagged<Tag, Ordinal>` — phantom-typed ordinal wrapper, `Count = Tagged<Tag, Cardinal>`
     ///
     /// ## Example
     ///
@@ -25,7 +31,25 @@ extension Ordinal {
     ///     O(ordinal: Ordinal(value.ordinal.rawValue + 1))
     /// }
     /// ```
+    ///
+    /// ## Future: Domain-based Unification
+    ///
+    /// Cross-type operators (Ordinal + Cardinal, comparisons) are currently
+    /// duplicated for bare and tagged types. Full unification via an
+    /// `associatedtype Domain` is blocked by Swift's requirement that
+    /// associated types be `Copyable`. When `Tag: ~Copyable`, we cannot
+    /// satisfy `Domain = Tag`.
+    ///
+    /// See: swift-cardinal-primitives/Experiments/tag-preserving-protocol-abstraction/
+    /// for the validated design that would enable full unification once Swift
+    /// allows `associatedtype Domain: ~Copyable`.
     public protocol `Protocol` {
+        /// The cardinal type that measures distances between positions.
+        ///
+        /// The distance between two ordinal positions is a cardinal quantity.
+        /// For phantom-typed ordinals, the count preserves the phantom type.
+        associatedtype Count: Cardinal.`Protocol`
+
         /// The underlying ordinal value.
         var ordinal: Ordinal { get }
 
@@ -37,6 +61,9 @@ extension Ordinal {
 // MARK: - Ordinal Conformance
 
 extension Ordinal: Ordinal.`Protocol` {
+    /// The cardinal type for measuring distances between ordinals.
+    public typealias Count = Cardinal
+
     /// Returns self.
     @inlinable
     public var ordinal: Ordinal { self }
@@ -51,6 +78,11 @@ extension Ordinal: Ordinal.`Protocol` {
 // MARK: - Tagged Conformance
 
 extension Tagged: Ordinal.`Protocol` where RawValue == Ordinal, Tag: ~Copyable {
+    /// The cardinal type for measuring distances between tagged ordinals.
+    ///
+    /// Preserves the phantom type: `Tagged<Tag, Ordinal>.Count = Tagged<Tag, Cardinal>`.
+    public typealias Count = Tagged<Tag, Cardinal>
+
     /// The underlying ordinal value.
     @inlinable
     public var ordinal: Ordinal { rawValue }
@@ -59,5 +91,25 @@ extension Tagged: Ordinal.`Protocol` where RawValue == Ordinal, Tag: ~Copyable {
     @inlinable
     public init(_ ordinal: Ordinal) {
         self.init(__unchecked: (), ordinal)
+    }
+}
+
+// MARK: - Arithmetic
+
+extension Ordinal.`Protocol` {
+    /// Advances an ordinal position by its associated count type.
+    ///
+    /// This uses the `Count` associated type to ensure phantom-type safety:
+    /// - `Ordinal + Cardinal → Ordinal`
+    /// - `Index<T> + Index<T>.Count → Index<T>`
+    @inlinable
+    public static func + (lhs: Self, rhs: Count) -> Self {
+        Self(lhs.ordinal + rhs.cardinal)
+    }
+
+    /// Advances an ordinal position by its associated count type in place.
+    @inlinable
+    public static func += (lhs: inout Self, rhs: Count) {
+        lhs = lhs + rhs
     }
 }

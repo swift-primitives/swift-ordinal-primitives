@@ -1,4 +1,19 @@
+// Ordinal+Cardinal.swift
+// Cross-type operations between ordinals and cardinals.
+//
+// ## Future: Domain-based Unification
+//
+// These concrete operators are duplicated in Tagged+Ordinal.swift for
+// phantom-typed variants. Full unification via generic operators with
+// `where O.Domain == C.Domain` is blocked by Swift's requirement that
+// associated types be `Copyable`. When `Tag: ~Copyable`, we cannot
+// satisfy `Domain = Tag`.
+//
+// See: swift-cardinal-primitives/Experiments/tag-preserving-protocol-abstraction/
+// for the validated design that would enable full unification once Swift
+// allows `associatedtype Domain: ~Copyable`.
 
+public import Cardinal_Primitives
 
 // MARK: - Protocol Conformances
 

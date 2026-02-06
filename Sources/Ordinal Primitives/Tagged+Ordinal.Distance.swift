@@ -37,17 +37,20 @@ extension Property {
     ///
     /// This operation is directional: it only succeeds when `other >= self`.
     ///
+    /// The return type is `Base.Count`, which for `Tagged<T, Ordinal>` is
+    /// `Tagged<T, Cardinal>`, preserving the phantom type.
+    ///
     /// - Parameter other: The target position.
     /// - Returns: The cardinal distance from `self` to `other`.
     /// - Throws: `Ordinal.Error.notForward` if `other < self`.
     @inlinable
-    public func forward<T: ~Copyable>(to other: Tagged<T, Ordinal>) throws(Ordinal.Error) -> Tagged<T, Cardinal>
+    public func forward<T: ~Copyable>(to other: Tagged<T, Ordinal>) throws(Ordinal.Error) -> Tagged<T, Ordinal>.Count
     where
     Tag == Tagged<T, Ordinal>.Distance,
     Base == Tagged<T, Ordinal> {
-        Tagged<T, Cardinal>(
-            __unchecked: (),
-            try base.rawValue.distance.forward(to: other.rawValue)
-        )
+        if other.ordinal < base.ordinal {
+            throw .notForward
+        }
+        return Tagged<T, Ordinal>.Count(Cardinal(other.ordinal.rawValue - base.ordinal.rawValue))
     }
 }

@@ -4,19 +4,21 @@ public import Cardinal_Primitives
 extension Ordinal {
     /// Tag type for advance operations.
     public enum Advance {}
+}
 
+extension Ordinal.`Protocol` {
     /// Policy-aware advance operations.
     ///
     /// Use this accessor to move forward by a cardinal amount:
     /// - `.advance.saturating(by:)` — clamps at `UInt.max`
     /// - `.advance.exact(by:)` — throws on overflow
     @inlinable
-    public var advance: Property<Advance, Self> {
+    public var advance: Property<Ordinal.Advance, Self> {
         Property(self)
     }
 }
 
-extension Property where Tag == Ordinal.Advance, Base == Ordinal {
+extension Property where Tag == Ordinal.Advance, Base: Ordinal.`Protocol` {
     /// Advances by a count, saturating at the maximum representable value.
     ///
     /// If the result would overflow, returns `Position(UInt.max)`.
@@ -24,12 +26,12 @@ extension Property where Tag == Ordinal.Advance, Base == Ordinal {
     /// - Parameter count: The cardinal amount to advance by.
     /// - Returns: The new position, clamped to `UInt.max` on overflow.
     @inlinable
-    public func saturating(by count: Cardinal) -> Base {
-        let (result, overflow) = base.rawValue.addingReportingOverflow(count.rawValue)
+    public func saturating<C: Cardinal.`Protocol`>(by count: C) -> Base {
+        let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
         if overflow {
-            return Base(UInt.max)
+            return Base.init(.init(UInt.max))
         }
-        return Base(result)
+        return Base(.init(result))
     }
 
     /// Advances by a count, throwing on overflow.
@@ -38,12 +40,12 @@ extension Property where Tag == Ordinal.Advance, Base == Ordinal {
     /// - Returns: The new position.
     /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
     @inlinable
-    public func exact(by count: Cardinal) throws(Base.Error) -> Base {
-        let (result, overflow) = base.rawValue.addingReportingOverflow(count.rawValue)
+    public func exact<C: Cardinal.`Protocol`>(by count: C) throws(Ordinal.Error) -> Base {
+        let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
         if overflow {
             throw .overflow
         }
-        return Base(result)
+        return Base(.init(result))
     }
 
     /// Advances by a count, clamping to a dynamic bound.
@@ -56,11 +58,11 @@ extension Property where Tag == Ordinal.Advance, Base == Ordinal {
     ///   - bound: The maximum position to clamp to.
     /// - Returns: The new position, clamped to `bound` if it would exceed it.
     @inlinable
-    public func clamped(by count: Cardinal, to bound: Base) -> Base {
-        let (result, overflow) = base.rawValue.addingReportingOverflow(count.rawValue)
-        if overflow || result > bound.rawValue {
+    public func clamped<C: Cardinal.`Protocol`>(by count: C, to bound: Base) -> Base {
+        let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
+        if overflow || result > bound.ordinal.rawValue {
             return bound
         }
-        return Base(result)
+        return Base(.init(result))
     }
 }
