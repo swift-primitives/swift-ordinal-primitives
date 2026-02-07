@@ -23,36 +23,7 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     public static var zero: Self { .init(__unchecked: (), .zero) }
 }
 
-// MARK: - Tagged<Tag, Ordinal> Construction
-
-extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
-    /// Creates a tagged ordinal from an ordinal.
-    @inlinable
-    public init(_ position: Ordinal) {
-        self.init(__unchecked: (), position)
-    }
-
-    /// Creates a tagged ordinal from a signed integer.
-    ///
-    /// - Parameter position: The position value. Must be non-negative.
-    /// - Throws: `Ordinal.Error.negativeSource` if position is negative.
-    @inlinable
-    public init(_ position: Int) throws(Ordinal.Error) {
-        self.init(__unchecked: (), try Ordinal(position))
-    }
-}
-
 // MARK: - Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> Conversion
-
-extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
-    /// Creates a tagged ordinal from a tagged cardinal.
-    ///
-    /// This is total - Cardinal is non-negative, so the resulting Ordinal is valid.
-    @inlinable
-    public init(_ count: Tagged<Tag, Cardinal>) {
-        self.init(__unchecked: (), Ordinal(count.rawValue))
-    }
-}
 
 extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     /// Creates a tagged cardinal from a tagged ordinal.
@@ -61,7 +32,7 @@ extension Tagged where RawValue == Cardinal, Tag: ~Copyable {
     /// so the count equals the position's numeric value.
     @inlinable
     public init(_ index: Tagged<Tag, Ordinal>) {
-        self.init(__unchecked: (), Cardinal(index.rawValue))
+        self = index.map(Cardinal.init)
     }
 }
 
@@ -103,7 +74,7 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     /// so the result is always valid (may trap on overflow).
     @inlinable
     public static func + (lhs: Self, rhs: Tagged<Tag, Cardinal>) -> Self {
-        Self(__unchecked: (), lhs.rawValue + rhs.rawValue)  // Delegates to Ordinal + Cardinal
+        lhs.map { $0 + rhs.rawValue }  // Delegates to Ordinal + Cardinal
     }
 
     /// Advances a tagged ordinal by a tagged cardinal in place.
@@ -133,7 +104,7 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     /// - Precondition: `rhs > 0` (division by zero traps).
     @inlinable
     public static func % (lhs: Self, rhs: Tagged<Tag, Cardinal>) -> Self {
-        Self(__unchecked: (), lhs.rawValue % rhs.rawValue)  // Delegates to Ordinal % Cardinal
+        lhs.map { $0 % rhs.rawValue }  // Delegates to Ordinal % Cardinal
     }
 }
 

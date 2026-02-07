@@ -24,9 +24,9 @@ extension Swift.MutableSpan where Element: ~Copyable {
         _unsafeStart start: UnsafeMutablePointer<Element>,
         count: Tagged<Element, Ordinal>.Count
     ) {
-        let span = try! unsafe Swift.MutableSpan(
+        let span = unsafe Swift.MutableSpan(
             _unsafeStart: start,
-            count: Int(count.count)
+            count: Int(bitPattern: count.count)
         )
         self = unsafe _overrideLifetime(span, borrowing: ())
     }
