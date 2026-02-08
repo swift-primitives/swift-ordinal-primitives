@@ -47,7 +47,7 @@ extension Property_Primitives.Property {
     ///   - source: A pointer to the values to move.
     ///   - count: The number of values to move.
     @inlinable
-    public func initialize<Pointee>(
+    public func initialize<Pointee: ~Copyable>(
         from source: UnsafeMutablePointer<Pointee>,
         count: Tagged<Pointee, Ordinal>.Count
     ) where Tag == UnsafeMutablePointer<Pointee>.Move, Base == UnsafeMutablePointer<Pointee> {
