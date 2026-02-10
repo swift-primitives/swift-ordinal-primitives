@@ -108,54 +108,59 @@ extension Tagged where RawValue == Ordinal, Tag: ~Copyable {
     }
 }
 
-// MARK: - Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> Comparisons
+// MARK: - Tagged<Tag, Ordinal.Protocol> ↔ Tagged<Tag, Cardinal> Comparisons
 
-/// Cross-type comparisons between ordinals and cardinals.
+/// Cross-type comparisons between ordinal-carrying types and cardinals.
+///
+/// These operators accept any `Ordinal.Protocol` conformer as the raw value,
+/// enabling comparisons for both unbounded ordinals (`Tagged<Tag, Ordinal>`)
+/// and bounded ordinals (`Tagged<Tag, Ordinal.Finite<N>>`).
 ///
 /// These operators are disfavored so that same-type comparisons
 /// (Cardinal > Cardinal, Ordinal > Ordinal) are preferred during type inference.
 /// This prevents ambiguity when using `.zero` with a known LHS type.
 ///
-/// The canonical bounds check `position < count` still works - you just need
-/// both sides to have explicit types.
+/// The canonical bounds check `position < count` works for both:
+/// - `Index<Element> < Index<Element>.Count`
+/// - `Index<Element>.Bounded<N> < Index<Element>.Count`
 
 @inlinable
 @_disfavoredOverload
-public func < <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
+public func < <Tag: ~Copyable, R: Ordinal.`Protocol`>(
+    lhs: Tagged<Tag, R>,
     rhs: Tagged<Tag, Cardinal>
 ) -> Bool {
-    lhs.rawValue < rhs.rawValue  // Delegates to Ordinal < Cardinal
+    lhs.rawValue.ordinal < rhs.rawValue  // Delegates to Ordinal < Cardinal
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
+public func <= <Tag: ~Copyable, R: Ordinal.`Protocol`>(
+    lhs: Tagged<Tag, R>,
     rhs: Tagged<Tag, Cardinal>
 ) -> Bool {
-    lhs.rawValue <= rhs.rawValue
+    lhs.rawValue.ordinal <= rhs.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func > <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
+public func > <Tag: ~Copyable, R: Ordinal.`Protocol`>(
+    lhs: Tagged<Tag, R>,
     rhs: Tagged<Tag, Cardinal>
 ) -> Bool {
-    lhs.rawValue > rhs.rawValue
+    lhs.rawValue.ordinal > rhs.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= <Tag: ~Copyable>(
-    lhs: Tagged<Tag, Ordinal>,
+public func >= <Tag: ~Copyable, R: Ordinal.`Protocol`>(
+    lhs: Tagged<Tag, R>,
     rhs: Tagged<Tag, Cardinal>
 ) -> Bool {
-    lhs.rawValue >= rhs.rawValue
+    lhs.rawValue.ordinal >= rhs.rawValue
 }
 
-// Reverse direction (Cardinal ↔ Ordinal)
+// Reverse direction (Cardinal ↔ Ordinal.Protocol)
 //
 // These cross-type operators are disfavored so that same-type comparisons
 // (Cardinal > Cardinal, Ordinal > Ordinal) are preferred during type inference.
@@ -163,38 +168,38 @@ public func >= <Tag: ~Copyable>(
 
 @inlinable
 @_disfavoredOverload
-public func < <Tag: ~Copyable>(
+public func < <Tag: ~Copyable, R: Ordinal.`Protocol`>(
     lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Ordinal>
+    rhs: Tagged<Tag, R>
 ) -> Bool {
-    lhs.rawValue < rhs.rawValue  // Delegates to Cardinal < Ordinal
+    lhs.rawValue < rhs.rawValue.ordinal  // Delegates to Cardinal < Ordinal
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= <Tag: ~Copyable>(
+public func <= <Tag: ~Copyable, R: Ordinal.`Protocol`>(
     lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Ordinal>
+    rhs: Tagged<Tag, R>
 ) -> Bool {
-    lhs.rawValue <= rhs.rawValue
+    lhs.rawValue <= rhs.rawValue.ordinal
 }
 
 @inlinable
 @_disfavoredOverload
-public func > <Tag: ~Copyable>(
+public func > <Tag: ~Copyable, R: Ordinal.`Protocol`>(
     lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Ordinal>
+    rhs: Tagged<Tag, R>
 ) -> Bool {
-    lhs.rawValue > rhs.rawValue
+    lhs.rawValue > rhs.rawValue.ordinal
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= <Tag: ~Copyable>(
+public func >= <Tag: ~Copyable, R: Ordinal.`Protocol`>(
     lhs: Tagged<Tag, Cardinal>,
-    rhs: Tagged<Tag, Ordinal>
+    rhs: Tagged<Tag, R>
 ) -> Bool {
-    lhs.rawValue >= rhs.rawValue
+    lhs.rawValue >= rhs.rawValue.ordinal
 }
 
 // MARK: - Int Conversions for Tagged<Tag, Ordinal>
