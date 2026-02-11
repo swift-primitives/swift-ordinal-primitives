@@ -21,12 +21,12 @@ extension InlineArray {
     /// - Returns: The element at the specified position.
     /// - Precondition: `position` must be a valid index for the array.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(position position_: O) -> Element {
+    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Element {
         get {
-            self[Int(bitPattern: position_.ordinal)]
+            self[Int(bitPattern: position.ordinal)]
         }
         set {
-            self[Int(bitPattern: position_.ordinal)] = newValue
+            self[Int(bitPattern: position.ordinal)] = newValue
         }
     }
 }

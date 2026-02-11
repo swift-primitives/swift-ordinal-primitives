@@ -10,14 +10,14 @@ struct ContiguousArrayOrdinalSubscriptTests {
     @Test
     func getViaOrdinal() {
         let arr = ContiguousArray([10, 20, 30])
-        let val = arr[position: Ordinal(1)]
+        let val = arr[Ordinal(1)]
         #expect(val == 20)
     }
 
     @Test
     func setViaOrdinal() {
         var arr = ContiguousArray([10, 20, 30])
-        arr[position: Ordinal(0)] = 99
+        arr[Ordinal(0)] = 99
         #expect(arr[0] == 99)
     }
 
@@ -26,7 +26,7 @@ struct ContiguousArrayOrdinalSubscriptTests {
         struct Slot: ~Copyable {}
         let arr = ContiguousArray([10, 20, 30])
         let idx = Tagged<Slot, Ordinal>(Ordinal(2))
-        let val = arr[position: idx]
+        let val = arr[idx]
         #expect(val == 30)
     }
 
@@ -35,7 +35,7 @@ struct ContiguousArrayOrdinalSubscriptTests {
         struct Slot: ~Copyable {}
         var arr = ContiguousArray([10, 20, 30])
         let idx = Tagged<Slot, Ordinal>(Ordinal(1))
-        arr[position: idx] = 77
+        arr[idx] = 77
         #expect(arr[1] == 77)
     }
 }

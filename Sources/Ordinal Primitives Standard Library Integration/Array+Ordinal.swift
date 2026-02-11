@@ -12,7 +12,7 @@ extension Array {
     /// - Returns: The element at the specified position.
     /// - Precondition: `position.rawValue` must be a valid index for the array.
     @inlinable
-    public subscript(position: Ordinal) -> Element {
+    public subscript(_ position: Ordinal) -> Element {
         self[Int(bitPattern: position)]
     }
 }

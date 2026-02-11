@@ -20,7 +20,7 @@ extension UnsafePointer {
     /// - Parameter position: The ordinal offset from this pointer.
     /// - Returns: The element at the specified offset.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(position position_: O) -> Pointee {
-        unsafe self[Int(bitPattern: position_.ordinal)]
+    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Pointee {
+        unsafe self[Int(bitPattern: position.ordinal)]
     }
 }

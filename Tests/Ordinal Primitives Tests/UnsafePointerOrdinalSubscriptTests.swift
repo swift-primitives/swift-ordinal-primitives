@@ -12,7 +12,7 @@ struct UnsafePointerOrdinalSubscriptTests {
         let values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeBufferPointer { buf in
             let ptr = buf.baseAddress!
-            let val = unsafe ptr[position: Ordinal(1)]
+            let val = unsafe ptr[Ordinal(1)]
             #expect(val == 20)
         }
     }
@@ -24,7 +24,7 @@ struct UnsafePointerOrdinalSubscriptTests {
         unsafe values.withUnsafeBufferPointer { buf in
             let ptr = buf.baseAddress!
             let idx = Tagged<Slot, Ordinal>(Ordinal(2))
-            let val = unsafe ptr[position: idx]
+            let val = unsafe ptr[idx]
             #expect(val == 30)
         }
     }

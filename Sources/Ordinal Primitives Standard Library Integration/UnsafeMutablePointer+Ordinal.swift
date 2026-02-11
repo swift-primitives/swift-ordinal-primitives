@@ -20,12 +20,12 @@ extension UnsafeMutablePointer {
     /// - Parameter position: The ordinal offset from this pointer.
     /// - Returns: The element at the specified offset.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(position position_: O) -> Pointee {
+    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Pointee {
         get {
-            unsafe self[Int(bitPattern: position_.ordinal)]
+            unsafe self[Int(bitPattern: position.ordinal)]
         }
         nonmutating set {
-            unsafe self[Int(bitPattern: position_.ordinal)] = newValue
+            unsafe self[Int(bitPattern: position.ordinal)] = newValue
         }
     }
 }

@@ -12,7 +12,7 @@ struct UnsafeMutablePointerOrdinalSubscriptTests {
         var values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let ptr = buf.baseAddress!
-            let val = unsafe ptr[position: Ordinal(1)]
+            let val = unsafe ptr[Ordinal(1)]
             #expect(val == 20)
         }
     }
@@ -22,7 +22,7 @@ struct UnsafeMutablePointerOrdinalSubscriptTests {
         var values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let ptr = buf.baseAddress!
-            unsafe ptr[position: Ordinal(0)] = 99
+            unsafe ptr[Ordinal(0)] = 99
             #expect(unsafe ptr[0] == 99)
         }
     }
@@ -34,7 +34,7 @@ struct UnsafeMutablePointerOrdinalSubscriptTests {
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let ptr = buf.baseAddress!
             let idx = Tagged<Slot, Ordinal>(Ordinal(2))
-            let val = unsafe ptr[position: idx]
+            let val = unsafe ptr[idx]
             #expect(val == 30)
         }
     }
@@ -46,7 +46,7 @@ struct UnsafeMutablePointerOrdinalSubscriptTests {
         unsafe values.withUnsafeMutableBufferPointer { buf in
             let ptr = buf.baseAddress!
             let idx = Tagged<Slot, Ordinal>(Ordinal(1))
-            unsafe ptr[position: idx] = 77
+            unsafe ptr[idx] = 77
             #expect(unsafe ptr[1] == 77)
         }
     }
