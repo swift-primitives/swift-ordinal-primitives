@@ -1,17 +1,11 @@
 // Ordinal+Cardinal.swift
 // Cross-type operations between ordinals and cardinals.
 //
-// ## Future: Domain-based Unification
-//
-// These concrete operators are duplicated in Tagged+Ordinal.swift for
-// phantom-typed variants. Full unification via generic operators with
-// `where O.Domain == C.Domain` is blocked by Swift's requirement that
-// associated types be `Copyable`. When `Tag: ~Copyable`, we cannot
-// satisfy `Domain = Tag`.
-//
-// See: swift-cardinal-primitives/Experiments/tag-preserving-protocol-abstraction/
-// for the validated design that would enable full unification once Swift
-// allows `associatedtype Domain: ~Copyable`.
+// These protocol-generic operators enforce same-domain safety via
+// `where O.Domain == C.Domain`. They cover:
+// - Bare: Ordinal ↔ Cardinal (Domain = Never)
+// - Tagged: Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> (Domain = Tag)
+// - Bounded: Tagged<Tag, Ordinal.Finite<N>> ↔ Tagged<Tag, Cardinal> (Domain = Tag)
 
 public import Cardinal_Primitives
 
@@ -22,85 +16,107 @@ extension Ordinal: Comparison.`Protocol` {}
 
 // MARK: - Position ↔ Count Comparisons
 
-/// Cross-type comparisons between ordinals and cardinals.
+/// Cross-type comparisons between ordinal-carrying and cardinal-carrying types.
 ///
 /// These operators are disfavored so that same-type comparisons
 /// (Cardinal > Cardinal, Ordinal > Ordinal) are preferred during type inference.
 /// This prevents ambiguity when using `.zero` with a known LHS type.
-///
-/// The canonical bounds check `position < count` still works - you just need
-/// both sides to have explicit types.
 
 @inlinable
 @_disfavoredOverload
-public func < (lhs: Ordinal, rhs: Cardinal) -> Bool {
-    lhs.rawValue < rhs.rawValue
+public func < <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> Bool where O.Domain == C.Domain {
+    lhs.ordinal.rawValue < rhs.cardinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (lhs: Ordinal, rhs: Cardinal) -> Bool {
-    lhs.rawValue <= rhs.rawValue
+public func <= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> Bool where O.Domain == C.Domain {
+    lhs.ordinal.rawValue <= rhs.cardinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (lhs: Ordinal, rhs: Cardinal) -> Bool {
-    lhs.rawValue > rhs.rawValue
+public func > <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> Bool where O.Domain == C.Domain {
+    lhs.ordinal.rawValue > rhs.cardinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (lhs: Ordinal, rhs: Cardinal) -> Bool {
-    lhs.rawValue >= rhs.rawValue
+public func >= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> Bool where O.Domain == C.Domain {
+    lhs.ordinal.rawValue >= rhs.cardinal.rawValue
 }
 
 // Reverse direction (Cardinal ↔ Ordinal)
 
 @inlinable
 @_disfavoredOverload
-public func < (lhs: Cardinal, rhs: Ordinal) -> Bool {
-    lhs.rawValue < rhs.rawValue
+public func < <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+    lhs: C, rhs: O
+) -> Bool where C.Domain == O.Domain {
+    lhs.cardinal.rawValue < rhs.ordinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func <= (lhs: Cardinal, rhs: Ordinal) -> Bool {
-    lhs.rawValue <= rhs.rawValue
+public func <= <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+    lhs: C, rhs: O
+) -> Bool where C.Domain == O.Domain {
+    lhs.cardinal.rawValue <= rhs.ordinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func > (lhs: Cardinal, rhs: Ordinal) -> Bool {
-    lhs.rawValue > rhs.rawValue
+public func > <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+    lhs: C, rhs: O
+) -> Bool where C.Domain == O.Domain {
+    lhs.cardinal.rawValue > rhs.ordinal.rawValue
 }
 
 @inlinable
 @_disfavoredOverload
-public func >= (lhs: Cardinal, rhs: Ordinal) -> Bool {
-    lhs.rawValue >= rhs.rawValue
+public func >= <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+    lhs: C, rhs: O
+) -> Bool where C.Domain == O.Domain {
+    lhs.cardinal.rawValue >= rhs.ordinal.rawValue
 }
 
 // MARK: - Ordinal + Cardinal → Ordinal (Advance by Count)
 
 /// Advances an ordinal by a cardinal amount.
 ///
-/// This is the total operation for moving forward by a non-negative count.
+/// This is a total operation for moving forward by a non-negative count.
 /// Traps on overflow (matching Swift integer semantics).
 @inlinable
-public func + (lhs: Ordinal, rhs: Cardinal) -> Ordinal {
-    Ordinal(lhs.rawValue + rhs.rawValue)
+@_disfavoredOverload
+public func + <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> O where O.Domain == C.Domain {
+    O(Ordinal(lhs.ordinal.rawValue + rhs.cardinal.rawValue))
 }
 
 /// Advances an ordinal by a cardinal amount (commutative).
 @inlinable
-public func + (lhs: Cardinal, rhs: Ordinal) -> Ordinal {
-    Ordinal(lhs.rawValue + rhs.rawValue)
+@_disfavoredOverload
+public func + <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+    lhs: C, rhs: O
+) -> O where C.Domain == O.Domain {
+    rhs + lhs
 }
 
 /// Advances an ordinal by a cardinal amount in place.
 @inlinable
-public func += (lhs: inout Ordinal, rhs: Cardinal) {
+@_disfavoredOverload
+public func += <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: inout O, rhs: C
+) where O.Domain == C.Domain {
     lhs = lhs + rhs
 }
 
@@ -113,6 +129,9 @@ public func += (lhs: inout Ordinal, rhs: Cardinal) {
 ///
 /// - Precondition: `rhs > 0` (division by zero traps).
 @inlinable
-public func % (lhs: Ordinal, rhs: Cardinal) -> Ordinal {
-    Ordinal(lhs.rawValue % rhs.rawValue)
+@_disfavoredOverload
+public func % <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+    lhs: O, rhs: C
+) -> O where O.Domain == C.Domain {
+    O(Ordinal(lhs.ordinal.rawValue % rhs.cardinal.rawValue))
 }
