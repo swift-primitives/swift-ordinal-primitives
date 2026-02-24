@@ -26,6 +26,7 @@ let package = Package(
         .package(path: "../swift-property-primitives"),
         .package(path: "../swift-equation-primitives"),
         .package(path: "../swift-comparison-primitives"),
+        .package(path: "../swift-hash-primitives"),
     ],
     targets: [
         .target(
@@ -36,6 +37,7 @@ let package = Package(
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
+                .product(name: "Hash Primitives", package: "swift-hash-primitives"),
             ]
         ),
         .target(

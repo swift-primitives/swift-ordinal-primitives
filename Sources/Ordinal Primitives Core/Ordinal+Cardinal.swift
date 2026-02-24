@@ -8,11 +8,13 @@
 // - Bounded: Tagged<Tag, Ordinal.Finite<N>> ↔ Tagged<Tag, Cardinal> (Domain = Tag)
 
 public import Cardinal_Primitives
+public import Hash_Primitives
 
 // MARK: - Protocol Conformances
 
 extension Ordinal: Equation.`Protocol` {}
 extension Ordinal: Comparison.`Protocol` {}
+extension Ordinal: Hash.`Protocol` {}
 
 // MARK: - Position ↔ Count Comparisons
 
