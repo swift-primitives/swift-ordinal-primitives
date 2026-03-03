@@ -9,11 +9,6 @@ applies_to: [swift-ordinal-primitives]
 normative: false
 ---
 -->
-
-@Metadata {
-    @TitleHeading("Ordinal Primitives")
-}
-
 Design decisions, implementation patterns, and lessons learned specific to this package.
 
 ## Overview
@@ -90,10 +85,8 @@ Once the conversions exist at the primitive level, downstream packages simply us
 
 ---
 
-## Topics
+## Related
 
-### Related Documents
-
-- <doc:Ordinal-Position>
-- <doc:Ordinal-Position-Advance>
-- <doc:Ordinal-Position-Retreat>
+- Ordinal-Position
+- Ordinal-Position-Advance
+- Ordinal-Position-Retreat
