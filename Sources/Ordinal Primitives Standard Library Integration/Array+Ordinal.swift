@@ -5,14 +5,14 @@
 extension Array {
     /// Accesses an element at an ordinal position.
     ///
-    /// This subscript allows using `Ordinal` directly as an array index.
-    /// The ordinal's raw value is used for indexing.
+    /// This subscript accepts any `Ordinal.Protocol` conformer, enabling
+    /// both bare `Ordinal` and phantom-typed `Tagged<Tag, Ordinal>` as indices.
     ///
     /// - Parameter position: The ordinal position to access.
     /// - Returns: The element at the specified position.
-    /// - Precondition: `position.rawValue` must be a valid index for the array.
+    /// - Precondition: The position must be a valid index for the array.
     @inlinable
-    public subscript(_ position: Ordinal) -> Element {
-        self[Int(bitPattern: position)]
+    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Element {
+        self[Int(bitPattern: position.ordinal)]
     }
 }
