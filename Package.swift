@@ -29,6 +29,8 @@ let package = Package(
         .package(path: "../swift-hash-primitives"),
     ],
     targets: [
+
+        // MARK: - Core
         .target(
             name: "Ordinal Primitives Core",
             dependencies: [
@@ -40,20 +42,25 @@ let package = Package(
                 .product(name: "Hash Primitives", package: "swift-hash-primitives"),
             ]
         ),
+
+        // MARK: - Umbrella
         .target(
             name: "Ordinal Primitives",
             dependencies: [
                 "Ordinal Primitives Core",
                 "Ordinal Primitives Standard Library Integration",
-                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
             ]
         ),
+
+        // MARK: - StdLib Integration
         .target(
             name: "Ordinal Primitives Standard Library Integration",
             dependencies: [
                 "Ordinal Primitives Core",
             ]
         ),
+
+        // MARK: - Test Support
         .target(
             name: "Ordinal Primitives Test Support",
             dependencies: [
@@ -62,6 +69,8 @@ let package = Package(
             ],
             path: "Tests/Support"
         ),
+
+        // MARK: - Tests
         .testTarget(
             name: "Ordinal Primitives Tests",
             dependencies: [
