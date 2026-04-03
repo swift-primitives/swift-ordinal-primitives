@@ -16,6 +16,14 @@ let package = Package(
             targets: ["Ordinal Primitives"]
         ),
         .library(
+            name: "Ordinal Primitives Core",
+            targets: ["Ordinal Primitives Core"]
+        ),
+        .library(
+            name: "Ordinal Primitives Standard Library Integration",
+            targets: ["Ordinal Primitives Standard Library Integration"]
+        ),
+        .library(
             name: "Ordinal Primitives Test Support",
             targets: ["Ordinal Primitives Test Support"]
         ),
