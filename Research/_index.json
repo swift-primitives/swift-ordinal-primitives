@@ -1,0 +1,32 @@
+{
+  "$schema": "https://swift-institute.org/schemas/research-index-v1.json",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-04-18",
+  "title": "Ordinal Primitives Research",
+  "blurb": "",
+  "scope": "swift-ordinal-primitives (swift-primitives)",
+  "documents": [
+    {
+      "file": "ordinal-cardinal-count-association.md",
+      "displayName": "ordinal-cardinal-count-association.md",
+      "topic": "Is it mathematically sound to associate a Count type with ordinal types, where Ordinal.Count = Cardinal? Distance between two ordinal positions yielding cardinal quantity. Tier 2.",
+      "date": "2026-03-15",
+      "status": "DEFERRED",
+      "statusDetail": null,
+      "statusRaw": "DEFERRED",
+      "tier": 2,
+      "scope": null
+    },
+    {
+      "file": "audit.md",
+      "displayName": "audit.md",
+      "topic": "Pre-publication dependency-tree audit: 6 operators/static properties in struct body",
+      "date": "2026-04-08",
+      "status": "LEGACY",
+      "statusDetail": null,
+      "statusRaw": "LEGACY",
+      "tier": null,
+      "scope": null
+    }
+  ]
+}
