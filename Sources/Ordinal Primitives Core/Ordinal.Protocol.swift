@@ -1,7 +1,7 @@
 // Ordinal.Protocol.swift
 // Abstraction over types that carry an ordinal position.
 
-public import Identity_Primitives
+public import Tagged_Primitives
 
 // MARK: - Protocol
 

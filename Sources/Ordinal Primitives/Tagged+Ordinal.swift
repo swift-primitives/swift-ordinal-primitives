@@ -9,7 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-public import Identity_Primitives
+public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal> Properties and Constants
 
