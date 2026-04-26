@@ -30,6 +30,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../swift-tagged-primitives"),
+        .package(path: "../swift-carrier-primitives"),
         .package(path: "../swift-cardinal-primitives"),
         .package(path: "../swift-property-primitives"),
         .package(path: "../swift-equation-primitives"),
@@ -43,6 +44,7 @@ let package = Package(
             name: "Ordinal Primitives Core",
             dependencies: [
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
@@ -65,6 +67,7 @@ let package = Package(
             name: "Ordinal Primitives Standard Library Integration",
             dependencies: [
                 "Ordinal Primitives Core",
+                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
             ]
         ),
 

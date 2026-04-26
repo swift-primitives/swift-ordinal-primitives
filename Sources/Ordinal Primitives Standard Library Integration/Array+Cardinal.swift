@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - Array + Tagged<Tag, Cardinal>
 
 extension Array {

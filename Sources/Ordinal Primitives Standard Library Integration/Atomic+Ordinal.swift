@@ -11,6 +11,9 @@
 
 public import Synchronization
 
+public import Carrier_Primitives
+public import Cardinal_Primitives
+
 // MARK: - Atomic + Ordinal.Protocol
 
 extension Atomic
@@ -35,7 +38,7 @@ where
     /// - Parameter capacity: The modular bound. Must be `> 0`.
     /// - Returns: The position before advancement, in `[0, capacity)`.
     @inlinable
-    public func advance<C: Cardinal.`Protocol`>(
+    public func advance<C: Carrier<Cardinal>>(
         within capacity: C
     ) -> Value
     where Value.Domain == C.Domain {

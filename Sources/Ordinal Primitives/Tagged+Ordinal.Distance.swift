@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+public import Cardinal_Primitives
 public import Tagged_Primitives
 public import Property_Primitives
 
@@ -37,8 +39,8 @@ extension Property {
     ///
     /// This operation is directional: it only succeeds when `other >= self`.
     ///
-    /// The return type is `Base.Count`, which for `Tagged<T, Ordinal>` is
-    /// `Tagged<T, Cardinal>`, preserving the phantom type.
+    /// Returns `Tagged<T, Cardinal>` — the phantom-typed cardinal distance,
+    /// preserving the phantom tag from the operand.
     ///
     /// - Parameter other: The target position.
     /// - Returns: The cardinal distance from `self` to `other`.

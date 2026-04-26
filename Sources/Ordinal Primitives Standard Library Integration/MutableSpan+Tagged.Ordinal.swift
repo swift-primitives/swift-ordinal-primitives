@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+public import Tagged_Primitives
+
 // MARK: - MutableSpan + Tagged<Element, Ordinal>.Count
 
 extension Swift.MutableSpan where Element: ~Copyable {
@@ -26,7 +29,7 @@ extension Swift.MutableSpan where Element: ~Copyable {
     ) {
         let span = unsafe Swift.MutableSpan(
             _unsafeStart: start,
-            count: Int(bitPattern: count.count)
+            count: Int(bitPattern: count.cardinal)
         )
         self = unsafe _overrideLifetime(span, borrowing: ())
     }

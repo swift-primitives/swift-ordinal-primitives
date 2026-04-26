@@ -11,6 +11,8 @@
 
 public import Synchronization
 
+public import Carrier_Primitives
+
 // MARK: - Tagged<Tag, Ordinal> + AtomicRepresentable
 
 extension Tagged: @retroactive AtomicRepresentable where RawValue == Ordinal, Tag: ~Copyable {

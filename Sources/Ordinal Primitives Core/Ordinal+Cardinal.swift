@@ -1,32 +1,32 @@
 // Ordinal+Cardinal.swift
 // Cross-type operations between ordinals and cardinals.
 //
-// These protocol-generic operators enforce same-domain safety via
-// `where O.Domain == C.Domain`. They cover:
-// - Bare: Ordinal ↔ Cardinal (Domain = Never)
-// - Tagged: Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> (Domain = Tag)
-// - Bounded: Tagged<Tag, Ordinal.Finite<N>> ↔ Tagged<Tag, Cardinal> (Domain = Tag)
+// The typed-advance operator (`Self + Self.Count`) lives on
+// `Ordinal.\`Protocol\`` (which has the `Count` associatedtype). This
+// file hosts the cross-type comparisons and the modular projection
+// where the LHS is an ordinal-carrying type and the RHS is a
+// cardinal-carrying type with matching `Domain`.
 
+public import Carrier_Primitives
 public import Cardinal_Primitives
 public import Hash_Primitives
 
-// MARK: - Protocol Conformances
+// MARK: - Witness Conformances
 
 extension Ordinal: Equation.`Protocol` {}
 extension Ordinal: Comparison.`Protocol` {}
 extension Ordinal: Hash.`Protocol` {}
 
 // MARK: - Position ↔ Count Comparisons
-
-/// Cross-type comparisons between ordinal-carrying and cardinal-carrying types.
-///
-/// These operators are disfavored so that same-type comparisons
-/// (Cardinal > Cardinal, Ordinal > Ordinal) are preferred during type inference.
-/// This prevents ambiguity when using `.zero` with a known LHS type.
+//
+// Cross-type comparisons between ordinal-carrying and cardinal-carrying
+// types with matching `Domain`. Disfavored so that same-type
+// comparisons (Cardinal > Cardinal, Ordinal > Ordinal) win type
+// inference for ambiguous literals.
 
 @inlinable
 @_disfavoredOverload
-public func < <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func < <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> Bool where O.Domain == C.Domain {
     lhs.ordinal.rawValue < rhs.cardinal.rawValue
@@ -34,7 +34,7 @@ public func < <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func <= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func <= <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> Bool where O.Domain == C.Domain {
     lhs.ordinal.rawValue <= rhs.cardinal.rawValue
@@ -42,7 +42,7 @@ public func <= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func > <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func > <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> Bool where O.Domain == C.Domain {
     lhs.ordinal.rawValue > rhs.cardinal.rawValue
@@ -50,7 +50,7 @@ public func > <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func >= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func >= <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> Bool where O.Domain == C.Domain {
     lhs.ordinal.rawValue >= rhs.cardinal.rawValue
@@ -60,7 +60,7 @@ public func >= <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func < <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+public func < <C: Carrier<Cardinal>, O: Ordinal.`Protocol`>(
     lhs: C, rhs: O
 ) -> Bool where C.Domain == O.Domain {
     lhs.cardinal.rawValue < rhs.ordinal.rawValue
@@ -68,7 +68,7 @@ public func < <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func <= <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+public func <= <C: Carrier<Cardinal>, O: Ordinal.`Protocol`>(
     lhs: C, rhs: O
 ) -> Bool where C.Domain == O.Domain {
     lhs.cardinal.rawValue <= rhs.ordinal.rawValue
@@ -76,7 +76,7 @@ public func <= <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func > <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+public func > <C: Carrier<Cardinal>, O: Ordinal.`Protocol`>(
     lhs: C, rhs: O
 ) -> Bool where C.Domain == O.Domain {
     lhs.cardinal.rawValue > rhs.ordinal.rawValue
@@ -84,39 +84,46 @@ public func > <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
 
 @inlinable
 @_disfavoredOverload
-public func >= <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+public func >= <C: Carrier<Cardinal>, O: Ordinal.`Protocol`>(
     lhs: C, rhs: O
 ) -> Bool where C.Domain == O.Domain {
     lhs.cardinal.rawValue >= rhs.ordinal.rawValue
 }
 
-// MARK: - Ordinal + Cardinal → Ordinal (Advance by Count)
+// MARK: - Ordinal + Cardinal → Ordinal (Cross-Carrier Advance)
+//
+// The `Self + Self.Count → Self` operator on `Ordinal.\`Protocol\``
+// is the ergonomic form (per-conformer concrete RHS, `.one` infers).
+// This free function handles the general cross-Carrier case where the
+// RHS is some `Carrier<Cardinal>` not necessarily equal to
+// `Self.Count` — e.g., when consumer code is generic over a separate
+// `C: Carrier<Cardinal>` type parameter with matching `Domain`.
 
-/// Advances an ordinal by a cardinal amount.
-///
-/// This is a total operation for moving forward by a non-negative count.
-/// Traps on overflow (matching Swift integer semantics).
+/// Advances an ordinal-carrying position by any `Carrier<Cardinal>` with
+/// matching `Domain`.
 @inlinable
 @_disfavoredOverload
-public func + <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func + <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> O where O.Domain == C.Domain {
     O(Ordinal(lhs.ordinal.rawValue + rhs.cardinal.rawValue))
 }
 
-/// Advances an ordinal by a cardinal amount (commutative).
+/// Advances an ordinal-carrying position by a cardinal-carrying count
+/// (commutative free-function form).
 @inlinable
 @_disfavoredOverload
-public func + <C: Cardinal.`Protocol`, O: Ordinal.`Protocol`>(
+public func + <C: Carrier<Cardinal>, O: Ordinal.`Protocol`>(
     lhs: C, rhs: O
 ) -> O where C.Domain == O.Domain {
     rhs + lhs
 }
 
-/// Advances an ordinal by a cardinal amount in place.
+/// Advances an ordinal-carrying position by a cardinal-carrying count
+/// in place (free-function form).
 @inlinable
 @_disfavoredOverload
-public func += <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func += <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: inout O, rhs: C
 ) where O.Domain == C.Domain {
     lhs = lhs + rhs
@@ -124,15 +131,14 @@ public func += <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
 
 // MARK: - Ordinal % Cardinal → Ordinal (Modular Projection)
 
-/// Projects an ordinal into a bounded range.
+/// Projects an ordinal into a bounded range — canonical ring-buffer wrap.
 ///
-/// This is the canonical operation for ring buffer wrap-around:
 /// `position % capacity` yields a position within `[0, capacity)`.
 ///
 /// - Precondition: `rhs > 0` (division by zero traps).
 @inlinable
 @_disfavoredOverload
-public func % <O: Ordinal.`Protocol`, C: Cardinal.`Protocol`>(
+public func % <O: Ordinal.`Protocol`, C: Carrier<Cardinal>>(
     lhs: O, rhs: C
 ) -> O where O.Domain == C.Domain {
     O(Ordinal(lhs.ordinal.rawValue % rhs.cardinal.rawValue))

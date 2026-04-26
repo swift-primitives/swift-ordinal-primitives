@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+public import Cardinal_Primitives
+public import Tagged_Primitives
 import Property_Primitives
 
 // MARK: - Tag Type
@@ -53,7 +56,7 @@ extension Property_Primitives.Property {
     ) where Tag == UnsafeMutablePointer<Pointee>.Move, Base == UnsafeMutablePointer<Pointee> {
         unsafe base.moveInitialize(
             from: source,
-            count: Int(bitPattern: count.count)
+            count: Int(bitPattern: count.cardinal)
         )
     }
 
@@ -70,6 +73,6 @@ extension Property_Primitives.Property {
         from source: UnsafeMutablePointer<Pointee>,
         count: Tagged<Pointee, Ordinal>.Count
     ) where Tag == UnsafeMutablePointer<Pointee>.Move, Base == UnsafeMutablePointer<Pointee> {
-        unsafe base.moveUpdate(from: source, count: Int(bitPattern: count.count))
+        unsafe base.moveUpdate(from: source, count: Int(bitPattern: count.cardinal))
     }
 }

@@ -9,7 +9,10 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// MARK: - UnsafeMutableBufferPointer + Tagged<Element, Ordinal>
+public import Carrier_Primitives
+public import Tagged_Primitives
+
+// MARK: - UnsafeMutableBufferPointer + Tagged<Element, Ordinal>.Count
 
 extension UnsafeMutableBufferPointer where Element: ~Copyable {
     /// Creates a mutable buffer pointer from a start address and typed count.
@@ -22,7 +25,7 @@ extension UnsafeMutableBufferPointer where Element: ~Copyable {
         start: UnsafeMutablePointer<Element>?,
         count: Tagged<Element, Ordinal>.Count
     ) {
-        unsafe self.init(start: start, count: Int(bitPattern: count.count))
+        unsafe self.init(start: start, count: Int(bitPattern: count.cardinal))
     }
 }
 

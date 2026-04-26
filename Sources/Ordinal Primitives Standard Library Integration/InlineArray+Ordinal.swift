@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - InlineArray + Ordinal.Protocol
 
 extension InlineArray {
@@ -21,7 +23,7 @@ extension InlineArray {
     /// - Returns: The element at the specified position.
     /// - Precondition: `position` must be a valid index for the array.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Element {
+    public subscript(_ position: some Ordinal.`Protocol`) -> Element {
         get {
             self[Int(bitPattern: position.ordinal)]
         }

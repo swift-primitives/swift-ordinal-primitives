@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - UnsafeRawPointer + Ordinal.Protocol
 
 extension UnsafeRawPointer {
@@ -17,7 +19,7 @@ extension UnsafeRawPointer {
     /// - Parameter offset: The ordinal byte offset to advance by.
     /// - Returns: A raw pointer offset from this pointer by `offset` bytes.
     @inlinable
-    public func advanced<O: Ordinal.`Protocol`>(by offset: O) -> Self {
+    public func advanced(by offset: some Ordinal.`Protocol`) -> Self {
         unsafe self.advanced(by: Int(bitPattern: offset.ordinal))
     }
 
@@ -28,7 +30,7 @@ extension UnsafeRawPointer {
     ///   - type: The type of value to load.
     /// - Returns: The value loaded from the specified offset.
     @inlinable
-    public func load<O: Ordinal.`Protocol`, T>(fromByteOffset offset: O, as type: T.Type) -> T {
+    public func load<T>(fromByteOffset offset: some Ordinal.`Protocol`, as type: T.Type) -> T {
         unsafe self.load(fromByteOffset: Int(bitPattern: offset.ordinal), as: type)
     }
 }

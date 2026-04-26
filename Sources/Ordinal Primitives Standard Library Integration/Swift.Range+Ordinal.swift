@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+public import Cardinal_Primitives
+
 // MARK: - Computed Properties
 
 extension Swift.Range where Bound: Ordinal.`Protocol` {
@@ -35,7 +38,8 @@ extension Swift.Range where Bound: Ordinal.`Protocol` {
     ///
     /// - Parameters:
     ///   - start: The first position in the range.
-    ///   - count: The number of positions in the range.
+    ///   - count: The number of positions in the range, as a Cardinal-carrier
+    ///     whose `Domain` matches `Bound.Domain`.
     ///
     /// This is a total operation: `start + count >= start` is guaranteed
     /// because both are non-negative, so the Range invariant holds.

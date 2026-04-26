@@ -1,5 +1,7 @@
 // Array+Ordinal.swift
 
+public import Carrier_Primitives
+
 // MARK: - Array Subscript with Ordinal
 
 extension Array {
@@ -12,7 +14,7 @@ extension Array {
     /// - Returns: The element at the specified position.
     /// - Precondition: The position must be a valid index for the array.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Element {
+    public subscript(_ position: some Ordinal.`Protocol`) -> Element {
         self[Int(bitPattern: position.ordinal)]
     }
 }

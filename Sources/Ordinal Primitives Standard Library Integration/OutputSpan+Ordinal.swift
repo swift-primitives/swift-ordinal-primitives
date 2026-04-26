@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - OutputSpan + Ordinal.Protocol
 
 extension Swift.OutputSpan where Element: ~Copyable {
@@ -24,9 +26,9 @@ extension Swift.OutputSpan where Element: ~Copyable {
     ///   - j: A valid ordinal position in this span.
     @inlinable
     @_lifetime(self: copy self)
-    public mutating func swapAt<I: Ordinal.`Protocol`, J: Ordinal.`Protocol`>(
-        _ i: I,
-        _ j: J
+    public mutating func swapAt(
+        _ i: some Ordinal.`Protocol`,
+        _ j: some Ordinal.`Protocol`
     ) {
         swapAt(
             Int(bitPattern: i.ordinal),

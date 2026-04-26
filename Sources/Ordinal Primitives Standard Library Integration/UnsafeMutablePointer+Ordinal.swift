@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - UnsafeMutablePointer + Ordinal.Protocol
 
 extension UnsafeMutablePointer {
@@ -20,7 +22,7 @@ extension UnsafeMutablePointer {
     /// - Parameter position: The ordinal offset from this pointer.
     /// - Returns: The element at the specified offset.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Pointee {
+    public subscript(_ position: some Ordinal.`Protocol`) -> Pointee {
         get {
             unsafe self[Int(bitPattern: position.ordinal)]
         }

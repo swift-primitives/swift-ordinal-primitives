@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Carrier_Primitives
+
 // MARK: - ContiguousArray + Ordinal.Protocol
 
 extension ContiguousArray {
@@ -20,7 +22,7 @@ extension ContiguousArray {
     /// - Parameter position: The ordinal position to access.
     /// - Returns: The element at the specified position.
     @inlinable
-    public subscript<O: Ordinal.`Protocol`>(_ position: O) -> Element {
+    public subscript(_ position: some Ordinal.`Protocol`) -> Element {
         get {
             self[Int(bitPattern: position.ordinal)]
         }
