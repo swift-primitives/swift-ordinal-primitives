@@ -1,0 +1,201 @@
+import Ordinal_Primitives_Test_Support
+import Testing
+
+@testable import Ordinal_Primitives
+
+@Suite
+struct OrdinalPositionTests {
+    // MARK: - Construction
+
+    @Test
+    func constructionFromUInt() {
+        let position: Ordinal = 42
+        #expect(position == 42)
+    }
+
+    @Test
+    func constructionFromIntSuccess() throws(Ordinal.Error) {
+        let position = try Ordinal(Int(42))
+        #expect(position.rawValue == 42)
+    }
+
+    @Test
+    func constructionFromIntFailsForNegative() {
+        #expect(throws: Ordinal.Error.negativeSource(-1)) {
+            try Ordinal(Int(-1))
+        }
+    }
+
+    @Test
+    func constructionExactlyReturnsNilForNegative() {
+        #expect(Ordinal(exactly: Int(-1)) == nil)
+    }
+
+    @Test
+    func constructionExactlySucceeds() {
+        #expect(Ordinal(exactly: 42) == 42)
+    }
+
+    // MARK: - Constants
+
+    @Test
+    func zeroConstant() {
+        #expect(Ordinal.zero == 0)
+    }
+
+    // MARK: - Successor
+
+    @Test
+    func successorSaturating() {
+        let position: Ordinal = 5
+        #expect(position.successor.saturating() == 6)
+    }
+
+    @Test
+    func successorSaturatingAtMax() {
+        let max = Ordinal(UInt.max)
+        #expect(max.successor.saturating() == max)
+    }
+
+    @Test
+    func successorExact() throws(Ordinal.Error) {
+        let position: Ordinal = 5
+        let next = try position.successor.exact()
+        #expect(next == 6)
+    }
+
+    @Test
+    func successorExactThrowsAtMax() {
+        let max = Ordinal(UInt.max)
+        #expect(throws: Ordinal.Error.overflow) {
+            try max.successor.exact()
+        }
+    }
+
+    // MARK: - Predecessor
+
+    @Test
+    func predecessorExact() throws(Ordinal.Error) {
+        let position: Ordinal = 5
+        let prev = try position.predecessor.exact()
+        #expect(prev == 4)
+    }
+
+    @Test
+    func predecessorExactThrowsAtZero() {
+        #expect(throws: Ordinal.Error.underflow) {
+            try Ordinal.zero.predecessor.exact()
+        }
+    }
+
+    @Test
+    func successorPredecessorRoundTrip() throws(Ordinal.Error) {
+        let position: Ordinal = 5
+        let result = try position.successor.exact().predecessor.exact()
+        #expect(result == position)
+    }
+
+    // MARK: - Advance
+
+    @Test
+    func advanceSaturating() {
+        let position: Ordinal = 5
+        let count: Cardinal = 3
+        #expect(position.advance.saturating(by: count) == 8)
+    }
+
+    @Test
+    func advanceSaturatingOverflow() {
+        let position = Ordinal(UInt.max - 5)
+        let count: Cardinal = 10
+        #expect(position.advance.saturating(by: count).rawValue == UInt.max)
+    }
+
+    @Test
+    func advanceExact() throws(Ordinal.Error) {
+        let position: Ordinal = 5
+        let count: Cardinal = 3
+        let result = try position.advance.exact(by: count)
+        #expect(result == 8)
+    }
+
+    @Test
+    func advanceExactThrowsOnOverflow() {
+        let position = Ordinal(UInt.max - 5)
+        let count: Cardinal = 10
+        #expect(throws: Ordinal.Error.overflow) {
+            try position.advance.exact(by: count)
+        }
+    }
+
+    // MARK: - Distance
+
+    @Test
+    func distanceForward() throws(Ordinal.Error) {
+        let a: Ordinal = 3
+        let b: Ordinal = 8
+        let distance = try a.distance.forward(to: b)
+        #expect(distance == 5)
+    }
+
+    @Test
+    func distanceForwardSame() throws(Ordinal.Error) {
+        let position: Ordinal = 5
+        let distance = try position.distance.forward(to: position)
+        #expect(distance == 0)
+    }
+
+    @Test
+    func distanceForwardThrowsWhenBackward() {
+        let a: Ordinal = 8
+        let b: Ordinal = 3
+        #expect(throws: Ordinal.Error.notForward) {
+            try a.distance.forward(to: b)
+        }
+    }
+
+    // MARK: - Comparison
+
+    @Test
+    func comparison() {
+        let a: Ordinal = 3
+        let b: Ordinal = 5
+        #expect(a < b)
+        #expect(a <= b)
+        #expect(b > a)
+        #expect(b >= a)
+        #expect(a == a)
+        #expect(a != b)
+    }
+
+    // MARK: - Cardinal Conversion
+
+    @Test
+    func cardinalToPosition() {
+        let count: Cardinal = 42
+        let position = Ordinal(count)
+        #expect(position == 42)
+    }
+
+    @Test
+    func positionToCardinal() {
+        let position: Ordinal = 42
+        let count = Cardinal(position)
+        #expect(count == 42)
+    }
+
+    // MARK: - Int Conversion
+
+    @Test
+    func intConversionSuccess() throws(Ordinal.Error) {
+        let position: Ordinal = 42
+        let value = try Int(position)
+        #expect(value == 42)
+    }
+
+    @Test
+    func intConversionExactlySuccess() {
+        let position: Ordinal = 42
+        #expect(Int(exactly: position) == 42)
+    }
+}

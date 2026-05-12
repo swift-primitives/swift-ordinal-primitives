@@ -1,2 +1,3 @@
-// exports.swift
-// No external dependencies to re-export - ordinal-primitives is foundational.
+@_exported public import Ordinal_Primitives_Core
+@_exported public import Ordinal_Primitives_Standard_Library_Integration
+@_exported public import Tagged_Primitives

@@ -1,0 +1,12 @@
+# .github/metadata.yaml
+# Triaged 2026-04-29 — anomaly-fix pass after wave-4 PR-branch triage didn't apply.
+# 2026-05-09: topics expanded to 4 per cohort C7 (data-structures launch cohort).
+description: "Ordinal types for Swift."
+topics:
+  - primitives
+  - ordinal
+  - type-safety
+  - data-structures
+homepage: "https://swift-institute.org"
+readme:
+  family: E
