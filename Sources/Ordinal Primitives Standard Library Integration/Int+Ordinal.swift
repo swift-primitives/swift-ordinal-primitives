@@ -64,12 +64,6 @@ extension Int {
     /// - Parameter position: The ordinal position.
     @inlinable
     public init(bitPattern position: Ordinal) {
-        // reason: typed-system bottom-out — this file IS the [INFRA-002]
-        // Int.init(bitPattern: Ordinal) integration overload definition;
-        // the position.rawValue → UInt → stdlib Int.init(bitPattern: UInt)
-        // chain is the canonical grounding. Direct analog of wave-2a
-        // cardinal Int+Cardinal.swift:48 (commit abd750b).
-        // swiftlint:disable:next bitpattern_rawvalue_chain_anti_pattern
         self = Int(bitPattern: position.rawValue)
     }
 }

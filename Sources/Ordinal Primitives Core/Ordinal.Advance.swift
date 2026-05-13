@@ -31,14 +31,6 @@ extension Property where Tag == Ordinal.Advance, Base: Ordinal.`Protocol` {
     /// - Returns: The new position, clamped to `UInt.max` on overflow.
     @inlinable
     public func saturating(by count: some Carrier.`Protocol`<Cardinal>) -> Base {
-        // reason: typed-system bottom-out — Ordinal advance.saturating
-        // operator implementation; the access through `.rawValue` and the
-        // call to stdlib UInt overflow-aware addition is the necessary
-        // grounding into stdlib arithmetic. [INFRA-103] / [CONV-016]
-        // options (i)–(iv) circular here. Direct analog of wave-2a
-        // cardinal arithmetic-operator pattern (swift-cardinal-primitives
-        // abd750b).
-        // swiftlint:disable:next chained_rawvalue_access_anti_pattern
         let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
         if overflow {
             return Base(Ordinal(UInt.max))
@@ -53,13 +45,6 @@ extension Property where Tag == Ordinal.Advance, Base: Ordinal.`Protocol` {
     /// - Throws: `Ordinal.Error.overflow` if the result exceeds `UInt.max`.
     @inlinable
     public func exact(by count: some Carrier.`Protocol`<Cardinal>) throws(Ordinal.Error) -> Base {
-        // reason: typed-system bottom-out — Ordinal advance.exact operator
-        // implementation; the access through `.rawValue` and the call to
-        // stdlib UInt overflow-aware addition is the necessary grounding
-        // into stdlib arithmetic. [INFRA-103] / [CONV-016] options
-        // (i)–(iv) circular here. Direct analog of wave-2a cardinal
-        // arithmetic-operator pattern (swift-cardinal-primitives abd750b).
-        // swiftlint:disable:next chained_rawvalue_access_anti_pattern
         let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
         if overflow {
             throw .overflow
@@ -78,14 +63,6 @@ extension Property where Tag == Ordinal.Advance, Base: Ordinal.`Protocol` {
     /// - Returns: The new position, clamped to `bound` if it would exceed it.
     @inlinable
     public func clamped(by count: some Carrier.`Protocol`<Cardinal>, to bound: Base) -> Base {
-        // reason: typed-system bottom-out — Ordinal advance.clamped
-        // operator implementation; the access through `.rawValue` and the
-        // call to stdlib UInt overflow-aware addition is the necessary
-        // grounding into stdlib arithmetic. [INFRA-103] / [CONV-016]
-        // options (i)–(iv) circular here. Direct analog of wave-2a
-        // cardinal arithmetic-operator pattern (swift-cardinal-primitives
-        // abd750b).
-        // swiftlint:disable:next chained_rawvalue_access_anti_pattern
         let (result, overflow) = base.ordinal.rawValue.addingReportingOverflow(count.cardinal.rawValue)
         if overflow || result > bound.ordinal.rawValue {
             return bound
