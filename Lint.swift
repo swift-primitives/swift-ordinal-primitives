@@ -14,8 +14,7 @@
 // `Ordinal` brand-newtype, so the four consumer-side recognizer rules
 // (`raw value access`, `chained rawvalue access`, `int public parameter`,
 // `pointer advanced by`) fire on legitimate-by-construction same-package
-// access. Loading ``Lint/Rule/Bundle/brandOwner`` opts the package out
-// of those four rules locally while preserving cross-package
+// access. Excluding those four rules locally preserves cross-package
 // strict-superset firing.
 //
 // See `swift-foundations/swift-linter-rules/Research/numerics-rule-recognizer-2026-05-12.md`
@@ -31,5 +30,10 @@ Lint.run(dependencies: [
         products: ["Linter Primitives Rules"]
     ),
 ]) {
-    Lint.Rule.Bundle.brandOwner
+    Lint.Rule.Bundle.primitives.excluding(rules: [
+        "raw value access",
+        "chained rawvalue access",
+        "int public parameter",
+        "pointer advanced by",
+    ])
 }
