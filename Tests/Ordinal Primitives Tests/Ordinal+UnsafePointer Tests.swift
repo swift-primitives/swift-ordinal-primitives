@@ -5,8 +5,20 @@ import Testing
 /// Regression guard: generic extension subscripts on UnsafePointer with
 /// Ordinal.Protocol constraint must resolve across module boundaries.
 /// See experiment: member-import-visibility-stdlib-subscript
-@Suite
-struct UnsafePointerOrdinalSubscriptTests {
+extension Ordinal {
+    @Suite
+    struct `UnsafePointer Subscript` {
+        @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
+        @Suite struct Performance {}
+    }
+}
+
+// MARK: - Unit
+
+extension Ordinal.`UnsafePointer Subscript`.Unit {
+
     @Test
     func `get via ordinal`() {
         let values: [Int] = [10, 20, 30]
@@ -23,7 +35,7 @@ struct UnsafePointerOrdinalSubscriptTests {
         let values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeBufferPointer { buf in
             let ptr = buf.baseAddress!
-            let idx = Tagged<Slot, Ordinal>(Ordinal(2))
+            let idx = Tagged_Primitives.Tagged<Slot, Ordinal>(Ordinal(2))
             let val = unsafe ptr[idx]
             #expect(val == 30)
         }
