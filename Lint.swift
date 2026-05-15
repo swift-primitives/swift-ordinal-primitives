@@ -11,11 +11,11 @@
 // ===----------------------------------------------------------------------===//
 
 // Shape-γ unified consumer manifest. swift-ordinal-primitives owns the
-// `Ordinal` brand-newtype, so the four consumer-side recognizer rules
+// `Ordinal` brand-newtype, so five consumer-side recognizer rules
 // (`raw value access`, `chained rawvalue access`, `int public parameter`,
-// `pointer advanced by`) fire on legitimate-by-construction same-package
-// access. Excluding those four rules locally preserves cross-package
-// strict-superset firing.
+// `pointer advanced by`, `bitpattern rawvalue chain`) fire on
+// legitimate-by-construction same-package access. Excluding those five
+// rules locally preserves cross-package strict-superset firing.
 //
 // See `swift-foundations/swift-linter-rules/Research/numerics-rule-recognizer-2026-05-12.md`
 // for the architectural rationale (Option 7: rule decomposition via
@@ -35,5 +35,6 @@ Lint.run(dependencies: [
         "chained rawvalue access",
         "int public parameter",
         "pointer advanced by",
+        "bitpattern rawvalue chain",
     ])
 }
