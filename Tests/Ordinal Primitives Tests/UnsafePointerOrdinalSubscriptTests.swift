@@ -8,7 +8,7 @@ import Testing
 @Suite
 struct UnsafePointerOrdinalSubscriptTests {
     @Test
-    func getViaOrdinal() {
+    func `get via ordinal`() {
         let values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeBufferPointer { buf in
             let ptr = buf.baseAddress!
@@ -18,7 +18,7 @@ struct UnsafePointerOrdinalSubscriptTests {
     }
 
     @Test
-    func getViaTaggedOrdinal() {
+    func `get via tagged ordinal`() {
         struct Slot: ~Copyable {}
         let values: [Int] = [10, 20, 30]
         unsafe values.withUnsafeBufferPointer { buf in

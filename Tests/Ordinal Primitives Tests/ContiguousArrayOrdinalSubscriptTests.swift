@@ -8,21 +8,21 @@ import Testing
 @Suite
 struct ContiguousArrayOrdinalSubscriptTests {
     @Test
-    func getViaOrdinal() {
+    func `get via ordinal`() {
         let arr = ContiguousArray([10, 20, 30])
         let val = arr[Ordinal(1)]
         #expect(val == 20)
     }
 
     @Test
-    func setViaOrdinal() {
+    func `set via ordinal`() {
         var arr = ContiguousArray([10, 20, 30])
         arr[Ordinal(0)] = 99
         #expect(arr[0] == 99)
     }
 
     @Test
-    func getViaTaggedOrdinal() {
+    func `get via tagged ordinal`() {
         struct Slot: ~Copyable {}
         let arr = ContiguousArray([10, 20, 30])
         let idx = Tagged<Slot, Ordinal>(Ordinal(2))
@@ -31,7 +31,7 @@ struct ContiguousArrayOrdinalSubscriptTests {
     }
 
     @Test
-    func setViaTaggedOrdinal() {
+    func `set via tagged ordinal`() {
         struct Slot: ~Copyable {}
         var arr = ContiguousArray([10, 20, 30])
         let idx = Tagged<Slot, Ordinal>(Ordinal(1))

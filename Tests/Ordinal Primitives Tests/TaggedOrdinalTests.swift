@@ -16,19 +16,19 @@ struct TaggedOrdinalTests {
     // MARK: - Construction
 
     @Test
-    func constructionFromOrdinal() {
+    func `construction from ordinal`() {
         let slot = Slot(Ordinal(3))
         #expect(slot.position == Ordinal(3))
     }
 
     @Test
-    func constructionFromIntegerLiteral() {
+    func `construction from integer literal`() {
         let slot: Slot = 5
         #expect(slot.position == 5)
     }
 
     @Test
-    func zeroConstant() {
+    func `zero constant`() {
         #expect(Slot.zero == 0)
         #expect(Slot.zero.position == .zero)
     }
@@ -36,7 +36,7 @@ struct TaggedOrdinalTests {
     // MARK: - Tag Discrimination
 
     @Test
-    func crossTagComparisonForbidden() {
+    func `cross tag comparison forbidden`() {
         // Same numeric value but distinct phantom tags — equality only holds
         // within the same Tag domain. A cross-tag operation would not compile;
         // this test verifies the same-tag path works.
@@ -48,21 +48,21 @@ struct TaggedOrdinalTests {
     // MARK: - Successor / Predecessor
 
     @Test
-    func successorSaturating() {
+    func `successor saturating`() {
         let slot: Slot = 5
         let next = slot.successor.saturating()
         #expect(next == 6)
     }
 
     @Test
-    func successorExact() throws(Ordinal.Error) {
+    func `successor exact`() throws(Ordinal.Error) {
         let slot: Slot = 5
         let next = try slot.successor.exact()
         #expect(next == 6)
     }
 
     @Test
-    func successorExactThrowsAtMax() {
+    func `successor exact throws at max`() {
         let max = Slot(Ordinal(UInt.max))
         #expect(throws: Ordinal.Error.overflow) {
             try max.successor.exact()
@@ -70,14 +70,14 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func predecessorExact() throws(Ordinal.Error) {
+    func `predecessor exact`() throws(Ordinal.Error) {
         let slot: Slot = 5
         let prev = try slot.predecessor.exact()
         #expect(prev == 4)
     }
 
     @Test
-    func predecessorExactThrowsAtZero() {
+    func `predecessor exact throws at zero`() {
         #expect(throws: Ordinal.Error.underflow) {
             try Slot.zero.predecessor.exact()
         }
@@ -86,7 +86,7 @@ struct TaggedOrdinalTests {
     // MARK: - Advance (Tagged + Tagged.Count)
 
     @Test
-    func advanceSaturatingTaggedCount() {
+    func `advance saturating tagged count`() {
         let slot: Slot = 5
         let count: SlotCount = 3
         let result = slot.advance.saturating(by: count)
@@ -94,7 +94,7 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func advanceExactTaggedCount() throws(Ordinal.Error) {
+    func `advance exact tagged count`() throws(Ordinal.Error) {
         let slot: Slot = 5
         let count: SlotCount = 3
         let result = try slot.advance.exact(by: count)
@@ -102,7 +102,7 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func advanceExactTaggedCountThrowsOnOverflow() {
+    func `advance exact tagged count throws on overflow`() {
         let slot = Slot(Ordinal(UInt.max - 5))
         let count: SlotCount = 10
         #expect(throws: Ordinal.Error.overflow) {
@@ -111,7 +111,7 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func advanceViaPlusOperator() {
+    func `advance via plus operator`() {
         let slot: Slot = 5
         let count: SlotCount = 3
         let result = slot + count
@@ -121,7 +121,7 @@ struct TaggedOrdinalTests {
     // MARK: - Distance (forward + unchecked)
 
     @Test
-    func distanceForwardTagged() throws(Ordinal.Error) {
+    func `distance forward tagged`() throws(Ordinal.Error) {
         let a: Slot = 3
         let b: Slot = 8
         let distance = try a.distance.forward(to: b)
@@ -129,7 +129,7 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func distanceForwardThrowsWhenBackward() {
+    func `distance forward throws when backward`() {
         let a: Slot = 8
         let b: Slot = 3
         #expect(throws: Ordinal.Error.notForward) {
@@ -138,7 +138,7 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func distanceUncheckedForwardMonotonic() {
+    func `distance unchecked forward monotonic`() {
         // distance.unchecked is the new accessor introduced in this dispatch
         // for proven-monotonic call sites where the forward precondition holds
         // by invariant. Bare-Ordinal path is exercised in-package via the
@@ -152,7 +152,7 @@ struct TaggedOrdinalTests {
     // MARK: - Range<Tagged<Tag, Ordinal>>
 
     @Test
-    func rangeCountTagged() {
+    func `range count tagged`() {
         let lower: Slot = 3
         let upper: Slot = 8
         let range = lower..<upper
@@ -160,14 +160,14 @@ struct TaggedOrdinalTests {
     }
 
     @Test
-    func rangeIsEmptyWhenEqual() {
+    func `range is empty when equal`() {
         let position: Slot = 5
         let range = position..<position
         #expect(range.isEmpty)
     }
 
     @Test
-    func rangeInitFromStartAndCount() {
+    func `range init from start and count`() {
         let start: Slot = 3
         let count: SlotCount = 5
         let range = Swift.Range(start: start, count: count)
@@ -178,7 +178,7 @@ struct TaggedOrdinalTests {
     // MARK: - Tagged<Tag, Cardinal> from Tagged<Tag, Ordinal>
 
     @Test
-    func cardinalFromOrdinal() {
+    func `cardinal from ordinal`() {
         let slot: Slot = 5
         let count = SlotCount(slot)
         #expect(count == 5)
@@ -187,20 +187,20 @@ struct TaggedOrdinalTests {
     // MARK: - Int Conversion
 
     @Test
-    func intExactlyFromTaggedOrdinal() {
+    func `int exactly from tagged ordinal`() {
         let slot: Slot = 42
         #expect(Int(exactly: slot) == 42)
     }
 
     @Test
-    func intFromTaggedOrdinal() throws(Ordinal.Error) {
+    func `int from tagged ordinal`() throws(Ordinal.Error) {
         let slot: Slot = 42
         let value = try Int(slot)
         #expect(value == 42)
     }
 
     @Test
-    func intBitPatternFromTaggedOrdinal() {
+    func `int bit pattern from tagged ordinal`() {
         let slot = Slot(Ordinal(UInt.max))
         let bits = Int(bitPattern: slot)
         #expect(bits == -1)
