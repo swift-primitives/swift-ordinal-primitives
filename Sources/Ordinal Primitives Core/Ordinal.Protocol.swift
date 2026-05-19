@@ -136,42 +136,10 @@ extension Ordinal.`Protocol` {
     /// Per-conformer concreteness of `Count` makes `.one` infer cleanly
     /// at call sites: `slot + .one` resolves `.one` as the conformer's
     /// `Count.one`.
-    #if compiler(>=6.4)
     @inlinable
     public static func + (lhs: Self, rhs: Count) -> Self {
         Self(Ordinal(lhs.ordinal.rawValue + rhs.cardinal.rawValue))
     }
-    #else
-    // swiftlint:disable:next workaround_marker_present
-    // WORKAROUND: Swift 6.3.x Wasm SDK Embedded `MandatoryPerformanceOptimizations`
-    // pass crashes (signal 11) on cross-module monomorphization of the
-    // nested-expression form
-    // `Self(Ordinal(lhs.ordinal.rawValue + rhs.cardinal.rawValue))`
-    // when this operator is invoked from a downstream consumer module
-    // under `-enable-experimental-feature Embedded`. Same code compiles
-    // cleanly on Swift 6.4-dev nightly Embedded — fixed upstream — so
-    // the `#if compiler(>=6.4)` branch above keeps the evergreen form
-    // for any toolchain with the fix.
-    // WHY: SIL `eliminateDeadAllocations` sub-pass hits an
-    //      `isLegalSILType` assertion on the nested-construction
-    //      pattern during consumer-module monomorphization. Splitting
-    //      into intermediate let-bindings breaks the SIL pattern. At
-    //      `-O` the let-bindings are SSA values; the optimized SIL
-    //      after MandatoryPerformanceOptimizations is equivalent to
-    //      the nested form, so there is no runtime cost.
-    // TRACKING: swift-institute/Issues/swift-issue-embedded-wasm-mandatory-perf-crash/.
-    // WHEN TO REMOVE: when CI drops the Swift 6.3.x Wasm SDK matrix leg
-    //                 (i.e., when the Wasm SDK ships against Swift ≥ 6.4).
-    //                 At that point this entire `#else` branch becomes
-    //                 unreachable on every CI runner and is mechanically
-    //                 removable.
-    @inlinable
-    public static func + (lhs: Self, rhs: Count) -> Self {
-        let sum: UInt = lhs.ordinal.rawValue + rhs.cardinal.rawValue
-        let ord = Ordinal(sum)
-        return Self(ord)
-    }
-    #endif
 
     /// Advances an ordinal position by its associated count type in place.
     @inlinable
