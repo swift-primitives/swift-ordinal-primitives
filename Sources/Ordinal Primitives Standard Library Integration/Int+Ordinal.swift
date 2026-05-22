@@ -66,4 +66,18 @@ extension Int {
     public init(bitPattern position: Ordinal) {
         self = Int(bitPattern: position.rawValue)
     }
+
+    /// Creates an integer by reinterpreting the bit pattern of any
+    /// `Ordinal.`Protocol`` conformer.
+    ///
+    /// Generic typed-Ordinal overload covering bare `Ordinal` AND phantom-typed
+    /// `Tagged<Tag, Ordinal>` (including `Index<Element>`, `Memory.Address`,
+    /// etc.) without requiring callers to unwrap via `.ordinal` accessor at
+    /// the call site.
+    ///
+    /// - Parameter position: Any conformer to `Ordinal.`Protocol``.
+    @inlinable
+    public init(bitPattern position: some Ordinal.`Protocol`) {
+        self = Int(bitPattern: position.ordinal.rawValue)
+    }
 }
