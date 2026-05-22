@@ -47,10 +47,6 @@ let package = Package(
             targets: ["Ordinal Distance Primitives"]
         ),
         .library(
-            name: "Ordinal Cardinal Primitives",
-            targets: ["Ordinal Cardinal Primitives"]
-        ),
-        .library(
             name: "Ordinal Carrier Primitives",
             targets: ["Ordinal Carrier Primitives"]
         ),
@@ -97,6 +93,7 @@ let package = Package(
         .package(url: "https://github.com/swift-primitives/swift-equation-primitives.git", branch: "main"),
         .package(url: "https://github.com/swift-primitives/swift-comparison-primitives.git", branch: "main"),
         .package(url: "https://github.com/swift-primitives/swift-hash-primitives.git", branch: "main"),
+        .package(path: "../swift-ordinal-cardinal-primitives"),
     ],
     targets: [
 
@@ -178,15 +175,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Ordinal Cardinal Primitives",
-            dependencies: [
-                "Ordinal Primitive",
-                "Ordinal Protocol Primitives",
-                .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
-            ]
-        ),
-        .target(
             name: "Ordinal Carrier Primitives",
             dependencies: [
                 "Ordinal Primitive",
@@ -218,7 +206,7 @@ let package = Package(
             name: "Ordinal Tagged Primitives",
             dependencies: [
                 "Ordinal Primitive",
-                "Ordinal Cardinal Primitives",
+                .product(name: "Ordinal Cardinal Primitives", package: "swift-ordinal-cardinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
@@ -231,9 +219,9 @@ let package = Package(
                 "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
-                "Ordinal Cardinal Primitives",
                 "Ordinal Distance Primitives",
                 "Ordinal Tagged Primitives",
+                .product(name: "Ordinal Cardinal Primitives", package: "swift-ordinal-cardinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Cardinal Primitives Standard Library Integration", package: "swift-cardinal-primitives"),
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
@@ -255,13 +243,13 @@ let package = Package(
                 "Ordinal Successor Primitives",
                 "Ordinal Predecessor Primitives",
                 "Ordinal Distance Primitives",
-                "Ordinal Cardinal Primitives",
                 "Ordinal Carrier Primitives",
                 "Ordinal Equation Primitives",
                 "Ordinal Hash Primitives",
                 "Ordinal Comparison Primitives",
                 "Ordinal Tagged Primitives",
                 "Ordinal Primitives Standard Library Integration",
+                .product(name: "Ordinal Cardinal Primitives", package: "swift-ordinal-cardinal-primitives"),
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
             ]
