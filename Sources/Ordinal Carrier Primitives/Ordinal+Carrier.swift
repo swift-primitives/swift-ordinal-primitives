@@ -8,7 +8,7 @@
 // `swift-institute/Research/operator-ergonomics-and-carrier-migration.md`.
 
 public import Carrier_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 // MARK: - Carrier Conformance (trivial self-carrier)
 

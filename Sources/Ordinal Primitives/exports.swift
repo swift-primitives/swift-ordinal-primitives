@@ -1,7 +1,7 @@
 // exports.swift
 
 @_exported public import Cardinal_Primitives
-@_exported public import Ordinal_Namespace
+@_exported public import Ordinal_Primitive
 @_exported public import Ordinal_Error_Primitives
 @_exported public import Ordinal_Protocol_Primitives
 @_exported public import Ordinal_Advance_Primitives

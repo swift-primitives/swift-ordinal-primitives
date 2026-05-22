@@ -1,5 +1,5 @@
 public import Ordinal_Error_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 public import Property_Primitives
 
 extension Ordinal {

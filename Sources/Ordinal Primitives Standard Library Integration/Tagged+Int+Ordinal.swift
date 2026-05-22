@@ -10,7 +10,7 @@
 // ===----------------------------------------------------------------------===//
 
 public import Ordinal_Error_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 public import Tagged_Primitives
 
 // MARK: - Int Conversions for Tagged<Tag, Ordinal>

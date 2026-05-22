@@ -10,7 +10,7 @@
 // ===----------------------------------------------------------------------===//
 
 public import Cardinal_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 public import Ordinal_Protocol_Primitives
 public import Property_Primitives
 public import Tagged_Primitives

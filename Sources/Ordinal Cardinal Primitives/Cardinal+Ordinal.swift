@@ -1,5 +1,5 @@
 public import Cardinal_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 // MARK: - Ordinal to Cardinal Conversion
 

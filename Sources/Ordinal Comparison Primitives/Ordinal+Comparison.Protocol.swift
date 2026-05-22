@@ -9,7 +9,7 @@
 // `#if swift(<6.4)` to avoid duplicate-conformance.
 
 public import Comparison_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 extension Ordinal: Comparison.`Protocol` {}
 

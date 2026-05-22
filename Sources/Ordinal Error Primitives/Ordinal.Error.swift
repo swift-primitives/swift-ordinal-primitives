@@ -1,4 +1,4 @@
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 extension Ordinal {
     /// Errors that can occur during ordinal operations.

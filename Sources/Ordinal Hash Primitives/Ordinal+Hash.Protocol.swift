@@ -14,7 +14,7 @@
 // `combine` over `rawValue`.
 
 public import Hash_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 extension Ordinal: Hash.`Protocol` {
     /// Feeds the underlying value into the given hasher.

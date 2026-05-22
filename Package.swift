@@ -13,8 +13,8 @@ let package = Package(
     products: [
         // MARK: - Namespace
         .library(
-            name: "Ordinal Namespace",
-            targets: ["Ordinal Namespace"]
+            name: "Ordinal Primitive",
+            targets: ["Ordinal Primitive"]
         ),
 
         // MARK: - Sub-namespace targets
@@ -102,7 +102,7 @@ let package = Package(
 
         // MARK: - Namespace
         .target(
-            name: "Ordinal Namespace",
+            name: "Ordinal Primitive",
             dependencies: []
         ),
 
@@ -110,13 +110,13 @@ let package = Package(
         .target(
             name: "Ordinal Error Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
             ]
         ),
         .target(
             name: "Ordinal Protocol Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
@@ -125,7 +125,7 @@ let package = Package(
         .target(
             name: "Ordinal Advance Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
@@ -137,7 +137,7 @@ let package = Package(
         .target(
             name: "Ordinal Retreat Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
@@ -148,7 +148,7 @@ let package = Package(
         .target(
             name: "Ordinal Successor Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
@@ -158,7 +158,7 @@ let package = Package(
         .target(
             name: "Ordinal Predecessor Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 .product(name: "Property Primitives", package: "swift-property-primitives"),
@@ -168,7 +168,7 @@ let package = Package(
         .target(
             name: "Ordinal Distance Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
@@ -180,7 +180,7 @@ let package = Package(
         .target(
             name: "Ordinal Cardinal Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Protocol Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
@@ -189,35 +189,35 @@ let package = Package(
         .target(
             name: "Ordinal Carrier Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
             ]
         ),
         .target(
             name: "Ordinal Equation Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 .product(name: "Equation Primitives", package: "swift-equation-primitives"),
             ]
         ),
         .target(
             name: "Ordinal Hash Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 .product(name: "Hash Primitives", package: "swift-hash-primitives"),
             ]
         ),
         .target(
             name: "Ordinal Comparison Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
             ]
         ),
         .target(
             name: "Ordinal Tagged Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Cardinal Primitives",
                 .product(name: "Cardinal Primitives", package: "swift-cardinal-primitives"),
                 .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
@@ -228,7 +228,7 @@ let package = Package(
         .target(
             name: "Ordinal Primitives Standard Library Integration",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 "Ordinal Cardinal Primitives",
@@ -247,7 +247,7 @@ let package = Package(
         .target(
             name: "Ordinal Primitives",
             dependencies: [
-                "Ordinal Namespace",
+                "Ordinal Primitive",
                 "Ordinal Error Primitives",
                 "Ordinal Protocol Primitives",
                 "Ordinal Advance Primitives",

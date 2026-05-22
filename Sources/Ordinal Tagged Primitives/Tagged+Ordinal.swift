@@ -11,7 +11,7 @@
 
 public import Cardinal_Primitives
 public import Ordinal_Cardinal_Primitives
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal> Properties and Constants

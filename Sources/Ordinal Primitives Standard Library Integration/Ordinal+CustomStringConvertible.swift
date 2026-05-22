@@ -9,7 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-public import Ordinal_Namespace
+public import Ordinal_Primitive
 
 extension Ordinal: CustomStringConvertible {
     /// A textual representation of the position's underlying unsigned integer.
