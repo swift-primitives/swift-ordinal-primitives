@@ -1,3 +1,5 @@
+public import Ordinal_Namespace
+
 extension Ordinal {
     /// Errors that can occur during ordinal operations.
     public enum Error: Swift.Error, Hashable, Sendable {

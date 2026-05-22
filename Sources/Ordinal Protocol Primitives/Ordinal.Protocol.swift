@@ -21,6 +21,7 @@
 
 public import Cardinal_Primitives
 public import Carrier_Primitives
+public import Ordinal_Namespace
 public import Tagged_Primitives
 
 // MARK: - Protocol

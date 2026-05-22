@@ -10,7 +10,8 @@
 // ===----------------------------------------------------------------------===//
 
 public import Cardinal_Primitives
-import Property_Primitives
+public import Cardinal_Primitives_Standard_Library_Integration
+public import Property_Primitives
 public import Tagged_Primitives
 
 // MARK: - Tag Type

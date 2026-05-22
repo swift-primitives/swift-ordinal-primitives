@@ -5,7 +5,7 @@
 // parameters for `~Copyable` conformers. On Swift 6.4+, it is a typealias
 // to `Swift.Hashable` per SE-0499 — this same extension then satisfies the
 // stdlib `Hashable` conformance directly. The stdlib `extension Ordinal:
-// Hashable {}` in `Ordinal.swift` is guarded `#if swift(<6.4)` to avoid
+// Hashable {}` declaration below is guarded `#if swift(<6.4)` to avoid
 // duplicate-conformance.
 //
 // The explicit `hash(into:)` is required (rather than relying on synthesis)
@@ -14,6 +14,7 @@
 // `combine` over `rawValue`.
 
 public import Hash_Primitives
+public import Ordinal_Namespace
 
 extension Ordinal: Hash.`Protocol` {
     /// Feeds the underlying value into the given hasher.
@@ -22,3 +23,7 @@ extension Ordinal: Hash.`Protocol` {
         hasher.combine(rawValue)
     }
 }
+
+#if swift(<6.4)
+    extension Ordinal: Hashable {}
+#endif

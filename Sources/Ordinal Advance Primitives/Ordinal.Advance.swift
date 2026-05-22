@@ -1,5 +1,9 @@
 public import Cardinal_Primitives
 public import Carrier_Primitives
+public import Ordinal_Error_Primitives
+public import Ordinal_Namespace
+public import Ordinal_Protocol_Primitives
+public import Property_Primitives
 
 extension Ordinal {
     /// Tag type for advance operations.

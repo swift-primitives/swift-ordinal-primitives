@@ -9,6 +9,11 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Cardinal_Primitives
+public import Cardinal_Primitives_Standard_Library_Integration
+public import Ordinal_Namespace
+public import Tagged_Primitives
+
 // MARK: - Array + Tagged<Tag, Cardinal>
 
 extension Array {

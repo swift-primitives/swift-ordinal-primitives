@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Ordinal_Cardinal_Primitives
+public import Ordinal_Distance_Primitives
+
 // MARK: - Computed Properties
 
 extension Swift.Range where Bound: Ordinal.`Protocol` {

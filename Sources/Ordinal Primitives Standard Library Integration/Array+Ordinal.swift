@@ -1,5 +1,8 @@
 // Array+Ordinal.swift
 
+public import Ordinal_Namespace
+public import Ordinal_Protocol_Primitives
+
 // MARK: - Array Subscript with Ordinal
 
 extension Array {

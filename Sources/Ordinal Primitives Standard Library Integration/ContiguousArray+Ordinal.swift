@@ -9,6 +9,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Ordinal_Namespace
+public import Ordinal_Protocol_Primitives
+
 // MARK: - ContiguousArray + Ordinal.Protocol
 
 extension ContiguousArray {

@@ -10,6 +10,9 @@
 // ===----------------------------------------------------------------------===//
 
 public import Cardinal_Primitives
+public import Ordinal_Error_Primitives
+public import Ordinal_Namespace
+public import Property_Primitives
 
 extension Ordinal {
     /// Tag type for retreat operations.

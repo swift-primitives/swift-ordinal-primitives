@@ -9,6 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Cardinal_Primitives_Standard_Library_Integration
 public import Tagged_Primitives
 
 // MARK: - UnsafeMutableBufferPointer + Tagged<Element, Ordinal>.Count

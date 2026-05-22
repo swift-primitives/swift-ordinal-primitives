@@ -12,6 +12,9 @@
 #if SYNCHRONIZATION_AVAILABLE
     public import Cardinal_Primitives
     public import Carrier_Primitives
+    public import Ordinal_Cardinal_Primitives
+    public import Ordinal_Namespace
+    public import Ordinal_Protocol_Primitives
     public import Synchronization
 
     // MARK: - Atomic + Ordinal.Protocol

@@ -9,6 +9,8 @@
 
 public import Cardinal_Primitives
 public import Carrier_Primitives
+public import Ordinal_Namespace
+public import Ordinal_Protocol_Primitives
 
 // Institute-protocol conformances live in per-protocol files:
 // - `Ordinal+Equation.Protocol.swift`

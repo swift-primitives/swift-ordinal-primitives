@@ -9,6 +9,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Ordinal_Namespace
+
 extension Ordinal: CustomStringConvertible {
     /// A textual representation of the position's underlying unsigned integer.
     public var description: String { rawValue.description }
