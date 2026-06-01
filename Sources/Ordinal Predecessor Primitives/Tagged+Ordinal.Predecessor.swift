@@ -17,14 +17,14 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Predecessor
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Tag for predecessor operations on tagged ordinals.
     public enum Predecessor {}
 }
 
 // MARK: - Tagged<Tag, Ordinal> Predecessor (Property-based)
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Access to policy-aware predecessor operations.
     ///
     /// Use this accessor to navigate backward by one position:
@@ -41,7 +41,7 @@ extension Property {
     /// - Returns: The previous position.
     /// - Throws: `Ordinal.Error.underflow` if at position zero.
     @inlinable
-    public func exact<T: ~Copyable>() throws(Ordinal.Error) -> Base
+    public func exact<T: ~Copyable & ~Escapable>() throws(Ordinal.Error) -> Base
     where
         Tag == Tagged<T, Ordinal>.Predecessor,
         Base == Tagged<T, Ordinal>

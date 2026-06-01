@@ -34,7 +34,7 @@ extension Array {
     ///     and returns an element.
     /// - Throws: Whatever error type `element` throws (typed via `E`).
     @inlinable
-    public init<Tag: ~Copyable, E: Swift.Error>(
+    public init<Tag: ~Copyable & ~Escapable, E: Swift.Error>(
         count: Tagged<Tag, Cardinal>,
         _ element: (Tagged<Tag, Ordinal>) throws(E) -> Element
     ) throws(E) {

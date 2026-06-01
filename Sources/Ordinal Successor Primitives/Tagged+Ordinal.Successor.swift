@@ -17,14 +17,14 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Successor
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Tag for successor operations on tagged ordinals.
     public enum Successor {}
 }
 
 // MARK: - Tagged<Tag, Ordinal> Successor (Property-based)
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Access to policy-aware successor operations.
     ///
     /// Use this accessor to navigate forward by one position:
@@ -43,7 +43,7 @@ extension Property {
     ///
     /// - Returns: The next position, clamped to `UInt.max` on overflow.
     @inlinable
-    public func saturating<T: ~Copyable>() -> Base
+    public func saturating<T: ~Copyable & ~Escapable>() -> Base
     where
         Tag == Tagged<T, Ordinal>.Successor,
         Base == Tagged<T, Ordinal>
@@ -56,7 +56,7 @@ extension Property {
     /// - Returns: The next position.
     /// - Throws: `Ordinal.Error.overflow` if at `UInt.max`.
     @inlinable
-    public func exact<T: ~Copyable>() throws(Ordinal.Error) -> Base
+    public func exact<T: ~Copyable & ~Escapable>() throws(Ordinal.Error) -> Base
     where
         Tag == Tagged<T, Ordinal>.Successor,
         Base == Tagged<T, Ordinal>

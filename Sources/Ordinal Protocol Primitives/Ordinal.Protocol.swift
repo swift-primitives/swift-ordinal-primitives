@@ -62,7 +62,7 @@ extension Ordinal {
         /// For `Tagged<Tag, Ordinal>`, `Domain` is `Tag`, enabling
         /// cross-type operators to enforce same-tag safety via
         /// `where O.Domain == C.Domain`.
-        associatedtype Domain: ~Copyable
+        associatedtype Domain: ~Copyable & ~Escapable
 
         /// The cardinal-carrying type that measures distances between
         /// positions in the same `Domain`.
@@ -101,7 +101,7 @@ extension Ordinal: Ordinal.`Protocol` {
 
 // MARK: - Tagged Conformance
 
-extension Tagged: Ordinal.`Protocol` where Underlying: Ordinal.`Protocol`, Tag: ~Copyable {
+extension Tagged: Ordinal.`Protocol` where Underlying: Ordinal.`Protocol`, Tag: ~Copyable & ~Escapable {
     /// The phantom type is the domain.
     public typealias Domain = Tag
 

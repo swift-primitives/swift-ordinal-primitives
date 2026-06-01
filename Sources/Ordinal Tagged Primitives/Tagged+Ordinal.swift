@@ -16,7 +16,7 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal> Properties and Constants
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// The underlying ordinal position.
     @inlinable
     public var position: Ordinal { underlying }
@@ -28,7 +28,7 @@ extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
 
 // MARK: - Tagged<Tag, Ordinal> ↔ Tagged<Tag, Cardinal> Conversion
 
-extension Tagged where Underlying == Cardinal, Tag: ~Copyable {
+extension Tagged where Underlying == Cardinal, Tag: ~Copyable & ~Escapable {
     /// Creates a tagged cardinal from a tagged ordinal.
     ///
     /// Semantically, position N means "N elements precede this position",

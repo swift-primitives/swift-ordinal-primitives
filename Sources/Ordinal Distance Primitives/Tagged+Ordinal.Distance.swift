@@ -18,14 +18,14 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Distance
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Tag for distance operations on tagged ordinals.
     public enum Distance {}
 }
 
 // MARK: - Tagged<Tag, Ordinal> Distance (Property-based)
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Access to distance operations between phantom-typed ordinal positions.
     ///
     /// Ordinal distance is directional — it only computes forward distances.
@@ -48,7 +48,7 @@ extension Property {
     /// - Returns: The cardinal distance from `self` to `other`.
     /// - Throws: `Ordinal.Error.notForward` if `other < self`.
     @inlinable
-    public func forward<T: ~Copyable>(to other: Tagged<T, Ordinal>) throws(Ordinal.Error) -> Tagged<T, Ordinal>.Count
+    public func forward<T: ~Copyable & ~Escapable>(to other: Tagged<T, Ordinal>) throws(Ordinal.Error) -> Tagged<T, Ordinal>.Count
     where
         Tag == Tagged<T, Ordinal>.Distance,
         Base == Tagged<T, Ordinal>

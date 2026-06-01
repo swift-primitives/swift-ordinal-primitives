@@ -18,13 +18,13 @@ public import Tagged_Primitives
 extension Int {
     /// Creates an integer from a tagged ordinal, returning `nil` if it exceeds `Int.max`.
     @inlinable
-    public init?<Tag: ~Copyable>(exactly position: Tagged<Tag, Ordinal>) {
+    public init?<Tag: ~Copyable & ~Escapable>(exactly position: Tagged<Tag, Ordinal>) {
         self.init(exactly: position.underlying)
     }
 
     /// Creates an integer from a tagged ordinal, throwing if it exceeds `Int.max`.
     @inlinable
-    public init<Tag: ~Copyable>(_ position: Tagged<Tag, Ordinal>) throws(Ordinal.Error) {
+    public init<Tag: ~Copyable & ~Escapable>(_ position: Tagged<Tag, Ordinal>) throws(Ordinal.Error) {
         self = try Int(position.underlying)
     }
 
@@ -32,7 +32,7 @@ extension Int {
     ///
     /// This is an unchecked conversion for low-level operations like pointer arithmetic.
     @inlinable
-    public init<Tag: ~Copyable>(bitPattern position: Tagged<Tag, Ordinal>) {
+    public init<Tag: ~Copyable & ~Escapable>(bitPattern position: Tagged<Tag, Ordinal>) {
         self = Int(bitPattern: position.underlying)
     }
 }

@@ -17,14 +17,14 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Advance
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Tag for advance operations on tagged ordinals.
     public enum Advance {}
 }
 
 // MARK: - Tagged<Tag, Ordinal> Advance (Property-based)
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Access to policy-aware advance operations.
     ///
     /// Use this accessor to move forward by a cardinal amount:
@@ -43,7 +43,7 @@ extension Property {
     ///   - bound: The maximum position to clamp to.
     /// - Returns: The new position, clamped to `bound` if it would exceed it.
     @inlinable
-    public func clamped<T: ~Copyable>(
+    public func clamped<T: ~Copyable & ~Escapable>(
         by count: Tagged<T, Cardinal>,
         to bound: Tagged<T, Ordinal>
     ) -> Base

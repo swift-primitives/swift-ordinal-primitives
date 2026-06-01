@@ -17,14 +17,14 @@ public import Tagged_Primitives
 
 // MARK: - Tagged<Tag, Ordinal>.Retreat
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Tag for retreat operations on tagged ordinals.
     public enum Retreat {}
 }
 
 // MARK: - Tagged<Tag, Ordinal> Retreat (Property-based)
 
-extension Tagged where Underlying == Ordinal, Tag: ~Copyable {
+extension Tagged where Underlying == Ordinal, Tag: ~Copyable & ~Escapable {
     /// Access to policy-aware retreat operations.
     ///
     /// Use this accessor to move backward by a cardinal amount:
@@ -43,7 +43,7 @@ extension Property {
     ///   - bound: The minimum position to clamp to.
     /// - Returns: The new position, clamped to `bound` if it would go below it.
     @inlinable
-    public func clamped<T: ~Copyable>(
+    public func clamped<T: ~Copyable & ~Escapable>(
         by count: Tagged<T, Cardinal>,
         to bound: Tagged<T, Ordinal>
     ) -> Base
