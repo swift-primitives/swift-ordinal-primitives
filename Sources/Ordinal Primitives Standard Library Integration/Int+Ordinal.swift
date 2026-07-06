@@ -17,7 +17,7 @@ extension Ordinal {
     /// - Parameter value: The signed integer value.
     /// - Throws: ``Ordinal/Error/negativeSource(_:)`` if `value < 0`.
     @inlinable
-    public init(_ value: Int) throws(Ordinal.Error) {
+    public init(_ value: Int) throws(Self.Error) {
         guard value >= 0 else {
             throw .negativeSource(value)
         }
@@ -37,7 +37,7 @@ extension Int {
     /// - Parameter position: The ordinal position.
     @inlinable
     public init?(exactly position: Ordinal) {
-        guard position.rawValue <= UInt(Int.max) else { return nil }
+        guard position.rawValue <= UInt(Self.max) else { return nil }
         self = Int(position.rawValue)
     }
 
@@ -47,7 +47,7 @@ extension Int {
     /// - Throws: `Ordinal.Error.overflow` if the position exceeds `Int.max`.
     @inlinable
     public init(_ position: Ordinal) throws(Ordinal.Error) {
-        guard position.rawValue <= UInt(Int.max) else {
+        guard position.rawValue <= UInt(Self.max) else {
             throw .overflow
         }
         self = Int(position.rawValue)

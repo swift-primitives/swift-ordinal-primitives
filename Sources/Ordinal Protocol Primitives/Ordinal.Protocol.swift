@@ -81,6 +81,9 @@ extension Ordinal {
 
 // MARK: - Ordinal Conformance
 
+// Conformance clause names the protocol being conformed to; `Self` is invalid here
+// (cf. Plist.Serializable precedent).
+// swiftlint:disable:next prefer_self_in_static_references
 extension Ordinal: Ordinal.`Protocol` {
     /// Bare ordinals are unscoped.
     public typealias Domain = Never
