@@ -282,6 +282,7 @@ let package = Package(
             name: "Ordinal Primitives Tests",
             dependencies: [
                 "Ordinal Primitives",
+                "Ordinal Primitives Standard Library Integration",
                 "Ordinal Primitives Test Support",
             ]
         ),
